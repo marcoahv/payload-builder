@@ -1,0 +1,26 @@
+@utility ui-link {
+  display: block;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: var(--font-weight-regular);
+  font-size: var(--text-base);
+  transition: color 0.3s ease 0s;
+  height: auto;
+
+  white-space: nowrap;
+  overflow: hidden;
+
+  /* Inherits rather than naming a colour. Every surface already sets `color`
+     to its own paired foreground, so a link is legible wherever it lands —
+     a header bar, an inverse section, the mobile drawer — without a rule per
+     context. A fixed colour here was why header links stayed near-black on
+     dark surfaces. */
+  color: inherit;
+
+  /* Relative to whatever colour was inherited, for the same reason: a fixed
+     brand colour reads on light surfaces and disappears on dark ones. */
+  &:hover {
+    color: color-mix(in srgb, currentColor 70%, transparent);
+    text-decoration: underline;
+  }
+}

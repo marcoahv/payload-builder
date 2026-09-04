@@ -1,0 +1,8 @@
+@utility ui-paragraph {
+  font-weight: var(--font-weight-regular);
+  line-height: 1.5;
+
+  font-size: var(--text-sm);
+  @apply atMedium:text-base;
+  @apply atLarge:text-lg;
+}

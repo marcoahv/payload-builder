@@ -1,0 +1,31 @@
+/* Tailwind MUST come first. It declares the cascade layer order
+   (@layer theme, base, components, utilities) that every file below relies on,
+   and any @theme override — notably --breakpoint-*: initial — only takes
+   effect when it is processed after Tailwind's own defaults. */
+@import 'tailwindcss';
+
+/* Tokens: the design vocabulary. Palette holds raw values; semantic maps
+   roles onto it. Components use semantic only. */
+@import './tokens/_palette.css';
+@import './tokens/_semantic.css';
+@import './tokens/_typography.css';
+@import './tokens/_spacing.css';
+@import './tokens/_breakpoints.css';
+
+@import './base/_reset.css';
+
+@import './elements/_button.css';
+@import './elements/_heading.css';
+@import './elements/_icon.css';
+@import './elements/_image.css';
+@import './elements/_link.css';
+@import './elements/_logo.css';
+@import './elements/_paragraph.css';
+@import './elements/_prose.css';
+@import './elements/_subheading.css';
+
+@import './layouts/_boxes.css';
+@import './layouts/_containers.css';
+
+@import './sections/_section.css';
+@import './sections/_header.css';

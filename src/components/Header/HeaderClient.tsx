@@ -1,0 +1,201 @@
+'use client'
+
+import { useCallback, useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { Menu, X } from 'lucide-react'
+import type { Header, Media, Page } from '@/payload-types'
+import { isDoc } from '@/utilities/isDoc'
+import { Container } from '@/components/primitives'
+import { Logo } from './Logo'
+
+const hrefFor = (page: Page) => (page.slug === 'home' ? '/' : `/${page.slug}`)
+
+export function HeaderClient({ header }: { header: Header }) {
+  const [open, setOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const navRef = useRef<HTMLElement>(null)
+  const pathname = usePathname()
+
+  const close = useCallback(() => setOpen(false), [])
+
+  const {
+    logo,
+    navLinks,
+    socialLinks,
+    ctaButtons,
+    surface,
+    width,
+    position,
+    height,
+    transparentAtTop,
+  } = header
+
+  // Close on navigation. Without this the drawer survives a route change and
+  // covers the page the visitor just asked for.
+  useEffect(() => {
+    setOpen(false)
+  }, [pathname])
+
+  // Only relevant when the bar can actually turn transparent — a header that
+  // always shows its surface has nothing to react to on scroll.
+  const tracksScroll = transparentAtTop !== false
+
+  // Passive listener: this only reads scrollY, so it must never block scrolling.
+  useEffect(() => {
+    if (!tracksScroll) return
+    const onScroll = () => setScrolled(window.scrollY > 0)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [tracksScroll])
+
+  // While the drawer is open: lock body scroll, close on Escape, and keep Tab
+  // inside the drawer so focus cannot wander onto the page hidden behind it.
+  useEffect(() => {
+    if (!open) return
+
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setOpen(false)
+        return
+      }
+      if (e.key !== 'Tab' || !navRef.current) return
+
+      const focusable = navRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      )
+      if (focusable.length === 0) return
+
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault()
+        first.focus()
+      }
+    }
+
+    document.addEventListener('keydown', onKeyDown)
+    return () => {
+      document.body.style.overflow = previousOverflow
+      document.removeEventListener('keydown', onKeyDown)
+    }
+  }, [open])
+
+  return (
+    <header
+      className={`header ${scrolled ? 'header--scrolled' : ''}`}
+      data-surface={surface ?? 'default'}
+      data-position={position ?? 'fixed'}
+      data-height={height ?? 'normal'}
+      data-transparent={tracksScroll}
+    >
+      <Container width={width}>
+        <div className="header__bar">
+          <Logo logo={logo} className="header__logo" />
+
+          <button
+            className="header__toggle"
+            onClick={() => setOpen((v) => !v)}
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            aria-expanded={open}
+            aria-controls="header-nav"
+          >
+            {open ? <X size={28} aria-hidden /> : <Menu size={28} aria-hidden />}
+          </button>
+
+          {/* Rendered once. CSS reshapes it into a drawer below atMedium and an
+              inline row above — see styles/sections/_header.css. */}
+          <nav
+            id="header-nav"
+            ref={navRef}
+            className={`header__nav ${open ? 'header__nav--open' : ''}`}
+            aria-label="Main navigation"
+          >
+            {navLinks && navLinks.length > 0 && (
+              <ul className="header__links">
+                {navLinks.map((item) => {
+                  if (!isDoc<Page>(item.link)) return null
+                  return (
+                    <li key={item.id}>
+                      <Link
+                        className="ui-link"
+                        href={hrefFor(item.link)}
+                        target={item.newTab ? '_blank' : undefined}
+                        rel={item.newTab ? 'noopener noreferrer' : undefined}
+                        onClick={close}
+                      >
+                        {item.link.title}
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ul>
+            )}
+
+            {socialLinks && socialLinks.length > 0 && (
+              <ul className="header__social">
+                {socialLinks.map((item) => (
+                  <li key={item.id}>
+                    <Link
+                      className="ui-link"
+                      href={item.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={item.platform}
+                      onClick={close}
+                    >
+                      {isDoc<Media>(item.icon) && item.icon.url && (
+                        <Image
+                          src={item.icon.url}
+                          alt=""
+                          width={24}
+                          height={24}
+                          aria-hidden
+                        />
+                      )}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {ctaButtons && ctaButtons.length > 0 && (
+              <ul className="header__actions">
+                {ctaButtons.map((item) => (
+                  <li key={item.id}>
+                    <Link
+                      href={item.url}
+                      className={
+                        item.variant === 'outline'
+                          ? 'ui-btn ui-btn-outline'
+                          : 'ui-btn ui-btn-cta'
+                      }
+                      onClick={close}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </nav>
+
+          <div
+            className={`header__scrim ${open ? 'header__scrim--visible' : ''}`}
+            onClick={close}
+            aria-hidden
+          />
+        </div>
+      </Container>
+    </header>
+  )
+}

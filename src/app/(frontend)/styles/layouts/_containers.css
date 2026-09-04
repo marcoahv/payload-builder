@@ -1,0 +1,13 @@
+@utility ui-flex-row-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  max-width: 1140px;
+  margin: 0 auto;
+  padding-left: 2rem;
+  padding-right: 2rem;
+
+  @apply atMedium:pl-[4rem];
+  @apply atMedium:pr-[4rem];
+}

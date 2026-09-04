@@ -1,0 +1,35 @@
+@layer base {
+  :root {
+    /* Drives every light-dark() call in tokens/_semantic.css. Without this,
+       light-dark() resolves to its first argument and dark mode never engages. */
+    color-scheme: light dark;
+  }
+
+  *,
+  *::after,
+  *::before,
+  *:active,
+  *:visited {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    scroll-behavior: smooth;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-on-surface);
+  }
+
+  ul {
+    list-style: none;
+  }
+
+  img {
+    max-width: 100%;
+  }
+}

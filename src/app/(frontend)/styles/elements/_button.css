@@ -1,0 +1,36 @@
+/* ui-btn is the base. ui-btn-outline and ui-btn-cta are MODIFIERS: they only
+   restyle what ui-btn already set, so always pair them —
+   class="ui-btn ui-btn-cta", never class="ui-btn-cta" on its own. */
+
+@utility ui-btn {
+  display: inline-block;
+  padding: 1rem 3rem;
+  cursor: pointer;
+
+  background-color: var(--color-neutral-300);
+  color: var(--color-neutral-900);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-regular);
+  text-decoration: none;
+
+  transition: all 0.3s ease 0s;
+
+  &:hover {
+    background-color: var(--color-neutral-700);
+    color: var(--color-neutral-100);
+  }
+}
+
+@utility ui-btn-outline {
+  border: 0.2rem solid var(--color-neutral-700);
+}
+
+@utility ui-btn-cta {
+  background-color: var(--color-primary-light);
+  border: none;
+
+  &:hover {
+    background-color: var(--color-primary-dark);
+    color: var(--color-neutral-100);
+  }
+}

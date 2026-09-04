@@ -1,0 +1,53 @@
+@utility ui-heading-1 {
+  font-weight: var(--font-weight-regular);
+  line-height: 1;
+
+  font-size: var(--text-h1-mobile);
+  @apply atMedium:text-h1-tablet;
+  @apply atLarge:text-h1-desktop;
+}
+
+@utility ui-heading-2 {
+  font-weight: var(--font-weight-regular);
+  line-height: 1;
+
+  font-size: var(--text-h2-mobile);
+  @apply atMedium:text-h2-tablet;
+  @apply atLarge:text-h2-desktop;
+}
+
+@utility ui-heading-3 {
+  font-weight: var(--font-weight-regular);
+  line-height: 1;
+
+  font-size: var(--text-h3-mobile);
+  @apply atMedium:text-h3-tablet;
+  @apply atLarge:text-h3-desktop;
+}
+
+/* h4-h6 step straight from mobile to desktop: at these sizes a tablet
+   step in between is not perceptible. */
+
+@utility ui-heading-4 {
+  font-weight: var(--font-weight-regular);
+  line-height: 1.2;
+
+  font-size: var(--text-h4-mobile);
+  @apply atLarge:text-h4-desktop;
+}
+
+@utility ui-heading-5 {
+  font-weight: var(--font-weight-medium);
+  line-height: 1.2;
+
+  font-size: var(--text-h5-mobile);
+  @apply atLarge:text-h5-desktop;
+}
+
+@utility ui-heading-6 {
+  font-weight: var(--font-weight-medium);
+  line-height: 1.2;
+
+  font-size: var(--text-h6-mobile);
+  @apply atLarge:text-h6-desktop;
+}

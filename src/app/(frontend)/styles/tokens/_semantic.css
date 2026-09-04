@@ -1,0 +1,85 @@
+/*=============================================
+*            Semantic — role tokens
+=============================================*/
+
+/* The vocabulary blocks and components actually use. Every token names a ROLE
+   ("the muted surface", "text on the action colour"), never a colour.
+
+   Two rules make brand-swapping safe:
+
+   1. Blocks reference ONLY these, never the palette. Swapping the palette then
+      re-brands the whole site without touching a component.
+   2. Surfaces and their foregrounds are defined AS PAIRS. Picking
+      `surface-muted` also determines `on-surface-muted`, so text can never end
+      up unreadable on its own background.
+
+   light-dark() supplies both themes in one declaration, driven by the
+   `color-scheme` set in base/_reset.css. No .dark class, no JS, no flash. */
+
+@theme static {
+  /* --- Surfaces, each with its matching foreground --- */
+
+  --color-surface: light-dark(var(--color-neutral-0), #16181b);
+  --color-on-surface: light-dark(var(--color-neutral-900), var(--color-neutral-100));
+
+  --color-surface-muted: light-dark(var(--color-primary-light), #1f2226);
+  --color-on-surface-muted: light-dark(var(--color-neutral-700), var(--color-neutral-300));
+
+  --color-surface-inverse: light-dark(var(--color-neutral-900), var(--color-primary-light));
+  --color-on-surface-inverse: light-dark(var(--color-neutral-100), var(--color-neutral-900));
+
+  --color-surface-accent: light-dark(var(--color-secondary-light), var(--color-secondary-dark));
+  --color-on-surface-accent: light-dark(var(--color-neutral-900), var(--color-neutral-100));
+
+  /* --- Actions --- */
+
+  --color-action: light-dark(var(--color-primary-dark), var(--color-primary));
+  --color-on-action: light-dark(var(--color-neutral-100), var(--color-neutral-900));
+  --color-action-hover: light-dark(var(--color-secondary-dark), var(--color-secondary-light));
+
+  /* --- Lines and focus --- */
+
+  --color-border: light-dark(var(--color-neutral-300), #33373d);
+  --color-border-strong: light-dark(var(--color-neutral-700), var(--color-neutral-500));
+  --color-focus: var(--color-secondary-dark);
+
+  /* --- Overlays ---
+     Derived with color-mix() rather than written as literals, so both follow a
+     palette swap and both colour schemes without a second definition. */
+
+  /* Dims the page behind an open mobile drawer. */
+  --color-scrim: color-mix(in srgb, var(--color-neutral-1000) 50%, transparent);
+
+  /* --- Feedback --- */
+
+  --color-danger: var(--color-red);
+  --color-on-danger: var(--color-neutral-100);
+  --color-success: var(--color-green);
+  --color-on-success: var(--color-neutral-100);
+
+  /* --- Radius --- */
+
+  --radius-sm: 0.4rem;
+  --radius-md: 0.8rem;
+  --radius-lg: 1.6rem;
+  --radius-pill: 999rem;
+
+  /* --- Section rhythm ---
+     Vertical breathing room for a <Section>. Referenced by the spacing
+     variants in sections/_section.css. */
+
+  --space-section-tight: 4rem;
+  --space-section: 8rem;
+  --space-section-loose: 12rem;
+
+  /* --- Header ---
+     Three heights, editor-selectable (see fields/appearance.ts). A fixed
+     header is out of flow and cannot push content down; sections/_header.css
+     reserves the matching amount of room on <main> instead, so the offset is
+     derived from the editor's own choice rather than duplicated as a margin
+     on whichever block happens to come first. */
+
+  --header-height-compact: 6rem;
+  --header-height-normal: 8rem;
+  --header-height-tall: 10rem;
+}

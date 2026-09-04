@@ -1,0 +1,314 @@
+/* Header.
+   @layer components, not @utility — see the note at the top of _section.css.
+
+   Every visual choice below is driven by a data-* attribute set from the
+   `header` global's appearance fields (fields/appearance.ts). Add a new
+   option there before adding a rule here — the CSS should never need a value
+   the config doesn't expose to an editor.
+
+   The nav list is rendered ONCE and reshaped by CSS: a slide-in drawer below
+   atMedium, an inline row from atMedium up. The alternative (a mobile list and
+   a desktop list, one of them hidden) puts every link in the DOM twice, which
+   duplicates ids and makes the nav read twice to a screen reader. */
+
+@layer components {
+  /* --- Surface ---
+     Sets --header-bg/--header-fg rather than background-color/color directly,
+     so the transparent and scrolled-overlay states below can still read the
+     chosen colours through color-mix() instead of hardcoding one surface. */
+
+  .header[data-surface='default'] {
+    --header-bg: var(--color-surface);
+    --header-fg: var(--color-on-surface);
+  }
+
+  .header[data-surface='muted'] {
+    --header-bg: var(--color-surface-muted);
+    --header-fg: var(--color-on-surface-muted);
+  }
+
+  .header[data-surface='inverse'] {
+    --header-bg: var(--color-surface-inverse);
+    --header-fg: var(--color-on-surface-inverse);
+  }
+
+  .header[data-surface='accent'] {
+    --header-bg: var(--color-surface-accent);
+    --header-fg: var(--color-on-surface-accent);
+  }
+
+  /* --- Position --- */
+
+  .header[data-position='fixed'] {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+  }
+
+  .header[data-position='sticky'] {
+    position: sticky;
+    top: 0;
+  }
+
+  .header[data-position='static'] {
+    position: static;
+  }
+
+  .header {
+    z-index: 1000;
+    color: var(--header-fg);
+    background-color: var(--header-bg);
+    transition: background-color 0.4s ease-in-out;
+  }
+
+  /* --- Transparency ---
+     "Transparent at top" only makes visual sense over a fixed or sticky header
+     floating above the first block; a static header has nothing beneath it to
+     show through. Declared for all three anyway — asking otherwise would mean
+     hiding the checkbox conditionally in the admin UI for little benefit, and
+     it is harmless where it has no effect. */
+
+  .header[data-transparent='true'] {
+    background-color: transparent;
+  }
+
+  /* Applied once the page scrolls past the top (see HeaderClient.tsx). Reads
+     the chosen surface back through color-mix() rather than a fixed overlay
+     token, so every surface gets its own correctly-tinted translucent bar. */
+  .header[data-transparent='true'].header--scrolled {
+    background-color: color-mix(in srgb, var(--header-bg) 85%, transparent);
+    backdrop-filter: blur(10px);
+  }
+
+  .header[data-transparent='false'],
+  .header[data-transparent='true'].header--scrolled {
+    border-block-end: 1px solid var(--color-border);
+  }
+
+  /* --- Height ---
+     Only sets the custom property; --header-bar reads it below. Kept as a
+     separate step so the :has() rule further down can key off the same
+     attribute without duplicating the compact/normal/tall values. */
+
+  .header[data-height='compact'] {
+    --header-height-current: var(--header-height-compact);
+  }
+
+  .header[data-height='normal'] {
+    --header-height-current: var(--header-height-normal);
+  }
+
+  .header[data-height='tall'] {
+    --header-height-current: var(--header-height-tall);
+  }
+
+  .header__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+
+    min-height: var(--header-height-current, var(--header-height-normal));
+  }
+
+  /* --- Fixed-header overlay ---
+     A fixed header is out of flow, so the first section slides underneath it.
+     Rather than pushing <main> down — which stops the hero's background ever
+     reaching the top of the viewport — the first section keeps its full height
+     and gains enough extra top padding to clear the bar. Background overlaps,
+     content does not.
+
+     :has() is what makes this possible: <main> is a sibling of .header, not a
+     descendant, so no custom property inherits across. These rules let the
+     page read the header's own chosen height. Sticky and static headers sit in
+     the document flow already and are deliberately excluded.
+
+     COUPLING: this targets the first block as `.ui-section:first-child` inside
+     <main>. Current markup is main > div > section.ui-section. Changing that
+     wrapper in [slug]/page.tsx breaks this silently — the symptom is a heading
+     sliding under the bar, not an error. */
+
+  body:has(.header[data-position='fixed'][data-height='compact']) {
+    --header-offset: var(--header-height-compact);
+  }
+
+  body:has(.header[data-position='fixed'][data-height='normal']) {
+    --header-offset: var(--header-height-normal);
+  }
+
+  body:has(.header[data-position='fixed'][data-height='tall']) {
+    --header-offset: var(--header-height-tall);
+  }
+
+  body:has(.header[data-position='fixed']) main .ui-section:first-child {
+    padding-block-start: calc(
+      var(--section-space, var(--space-section)) + var(--header-offset, var(--header-height-normal))
+    );
+  }
+
+  /* --- Adopting the surface underneath ---
+     While the bar is transparent it is sitting on the first section's
+     background, so it must take that section's foreground or the logo and
+     links can end up invisible. Overriding --header-fg alone recolours
+     everything, because the links inherit it and the logo mask paints with
+     currentColor.
+
+     :not(.header--scrolled) hands control back to the header's own surface the
+     moment it gains a background of its own. */
+
+  body:has(main .ui-section:first-child[data-surface='default'])
+    .header[data-transparent='true']:not(.header--scrolled) {
+    --header-fg: var(--color-on-surface);
+  }
+
+  body:has(main .ui-section:first-child[data-surface='muted'])
+    .header[data-transparent='true']:not(.header--scrolled) {
+    --header-fg: var(--color-on-surface-muted);
+  }
+
+  body:has(main .ui-section:first-child[data-surface='inverse'])
+    .header[data-transparent='true']:not(.header--scrolled) {
+    --header-fg: var(--color-on-surface-inverse);
+  }
+
+  body:has(main .ui-section:first-child[data-surface='accent'])
+    .header[data-transparent='true']:not(.header--scrolled) {
+    --header-fg: var(--color-on-surface-accent);
+  }
+
+  /* Sizing lives on .ui-logo-mark (elements/_logo.css); this only positions it. */
+  .header__logo {
+    display: flex;
+    align-items: center;
+  }
+
+  /* Hamburger — mobile only. */
+  .header__toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: none;
+    border: none;
+    padding: 0.8rem;
+    margin-inline-end: -0.8rem;
+    cursor: pointer;
+    color: inherit;
+
+    transition: color 0.3s ease 0s;
+
+    &:hover {
+      color: var(--color-action);
+    }
+
+    @variant atMedium {
+      display: none;
+    }
+  }
+
+  /* Scrim behind the open drawer. Mobile only — there is no drawer above
+     atMedium, so it must never intercept clicks there. */
+  .header__scrim {
+    position: fixed;
+    inset: var(--header-height-current, var(--header-height-normal)) 0 0 0;
+    z-index: -1;
+
+    background-color: var(--color-scrim);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.3s ease,
+      visibility 0.3s ease;
+
+    @variant atMedium {
+      display: none;
+    }
+  }
+
+  .header__scrim--visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* --- The single nav list --- */
+
+  /* Mobile: a panel that slides down from under the bar. Uses the page's own
+     surface, not a hardcoded colour — that stays legible whichever surface the
+     header itself is set to. */
+  .header__nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.4rem;
+
+    padding: 3rem 2rem;
+    background-color: var(--color-surface);
+    color: var(--color-on-surface);
+    border-block-end: 1px solid var(--color-border);
+
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease,
+      visibility 0.3s ease;
+
+    /* Desktop: an inline row in the bar. Every positioning property set above
+       is unwound here, so the same element serves both layouts.
+
+       @variant, not @apply: `atMedium:translate-y-0` compiles to the `translate`
+       property, which does NOT override the `transform` set above — the panel
+       would stay shifted up by its own height. Writing real properties avoids
+       guessing which one a utility targets. */
+    @variant atMedium {
+      position: static;
+      width: auto;
+      flex-direction: row;
+      gap: 3.2rem;
+      padding: 0;
+      background-color: transparent;
+      color: inherit;
+      border-block-end: none;
+      transform: none;
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  .header__nav--open {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .header__links,
+  .header__social,
+  .header__actions {
+    display: flex;
+    align-items: center;
+    gap: 2.4rem;
+
+    flex-direction: column;
+
+    @variant atMedium {
+      flex-direction: row;
+      gap: 3.2rem;
+    }
+  }
+
+  .header__social {
+    gap: 1.6rem;
+
+    img {
+      width: 2.4rem;
+      height: 2.4rem;
+    }
+  }
+}

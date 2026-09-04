@@ -1,0 +1,91 @@
+/* Backs the <Section> and <Container> primitives in
+   src/components/primitives/. The components map their props to data-*
+   attributes; this file maps those attributes to semantic tokens.
+
+   @layer components, not @utility, for two reasons:
+     1. Utilities must be able to override a section — in @layer components
+        they always can, regardless of source order.
+     2. These class names are partly composed at runtime, and Tailwind only
+        emits a utility when its scanner finds the literal string in source.
+        Authored CSS in a layer is always emitted. */
+
+@layer components {
+  .ui-section {
+    position: relative;
+    overflow: hidden;
+
+    /* Default pairing. Every data-surface below overrides BOTH properties
+       together, so foreground and background can never drift apart. */
+    background-color: var(--color-surface);
+    color: var(--color-on-surface);
+  }
+
+  .ui-section[data-surface='muted'] {
+    background-color: var(--color-surface-muted);
+    color: var(--color-on-surface-muted);
+  }
+
+  .ui-section[data-surface='inverse'] {
+    background-color: var(--color-surface-inverse);
+    color: var(--color-on-surface-inverse);
+  }
+
+  .ui-section[data-surface='accent'] {
+    background-color: var(--color-surface-accent);
+    color: var(--color-on-surface-accent);
+  }
+
+  /* Vertical rhythm.
+     Each variant publishes its value as --section-space rather than setting
+     padding directly, so other rules can build on the editor's choice instead
+     of re-deriving it. The fixed-header overlay in sections/_header.css adds
+     the header's height to this value on the first section. */
+
+  .ui-section[data-spacing='none'] {
+    --section-space: 0rem;
+  }
+
+  .ui-section[data-spacing='tight'] {
+    --section-space: var(--space-section-tight);
+  }
+
+  .ui-section[data-spacing='normal'] {
+    --section-space: var(--space-section);
+  }
+
+  .ui-section[data-spacing='loose'] {
+    --section-space: var(--space-section-loose);
+  }
+
+  .ui-section {
+    padding-block: var(--section-space, var(--space-section));
+  }
+
+  /* Horizontal measure. Gutters stay on the container so the section's
+     background can still run full-bleed. */
+
+  .ui-container {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: 2rem;
+
+    @apply atMedium:px-[4rem];
+  }
+
+  .ui-container[data-width='narrow'] {
+    max-width: 72rem;
+  }
+
+  .ui-container[data-width='default'] {
+    max-width: 114rem;
+  }
+
+  .ui-container[data-width='wide'] {
+    max-width: 144rem;
+  }
+
+  .ui-container[data-width='full'] {
+    max-width: none;
+    padding-inline: 0;
+  }
+}
