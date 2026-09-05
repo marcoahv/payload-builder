@@ -3,7 +3,8 @@ import './styles/index.css'
 import { GoogleTagManager } from '@next/third-parties/google'
 import { Metadata } from 'next'
 import { getCachedGlobal } from '@/utilities/getGlobals'
-import { Header } from '@/components/Header'
+import { Header } from '@/globals/Header/Component'
+import { Footer } from '@/globals/Footer/Component'
 import { isDoc } from '@/utilities/isDoc'
 import type { Media } from '@/payload-types'
 import { fontVariables } from './fonts'
@@ -67,7 +68,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
             header always gets the right padding and a sticky/static one
             correctly gets none. */}
         <main>{children}</main>
-        {/* TODO(phase 7): restore Footer from src/_legacy/. */}
+        <Footer />
       </body>
     </html>
   )

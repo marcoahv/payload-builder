@@ -1,6 +1,6 @@
 # Site Builder - Project Overview
 
-<!-- blueprint:source-hash 1d2a0e198b865b7ffb5e8077424e7be7c6bae7e457615c8fe310433abc4553f4 -->
+<!-- blueprint:source-hash d828e4f2ac3b04cb9c979933122cb777e073cf563bf04b888b020b64009bfa63 -->
 
 > A reusable Payload CMS + Next.js template, kept as a template repository and
 > cloned fresh for each new site, rather than shipped as one specific product.

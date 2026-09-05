@@ -13,6 +13,7 @@ import { Pages } from '@/collections/Pages/config'
 import { Posts } from '@/collections/Posts/config'
 import { Settings } from '@/globals/Settings/config'
 import { Header } from '@/globals/Header/config'
+import { Footer } from '@/globals/Footer/config'
 import { Categories } from '@/collections/Categories/config'
 import { blockConfigs } from '@/blocks/registry'
 import { seoPlugin } from '@payloadcms/plugin-seo'
@@ -48,7 +49,7 @@ export default buildConfig({
         })
       : undefined,
   collections: [Users, Media, Pages, Posts, Categories],
-  globals: [Header, Settings],
+  globals: [Header, Settings, Footer],
   // Registered globally so collections can reference blocks by slug.
   // See src/blocks/registry.ts.
   blocks: blockConfigs,

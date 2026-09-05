@@ -1,0 +1,96 @@
+/* Footer.
+   @layer components, not @utility — see the note at the top of _section.css.
+
+   Global chrome like Header, not block content, so it sets its own
+   data-surface/data-spacing directly rather than going through <Section> —
+   but the editor-facing options are the same shared appearanceField() every
+   block uses (see fields/appearance.ts and globals/Footer/config.ts), so the
+   surface/spacing mapping below intentionally mirrors _section.css's. Width
+   needs no rule here: <Container> already applies it via .ui-container's own
+   data-width rules. */
+
+@layer components {
+  .footer[data-surface='default'] {
+    --footer-bg: var(--color-surface);
+    --footer-fg: var(--color-on-surface);
+  }
+
+  .footer[data-surface='muted'] {
+    --footer-bg: var(--color-surface-muted);
+    --footer-fg: var(--color-on-surface-muted);
+  }
+
+  .footer[data-surface='inverse'] {
+    --footer-bg: var(--color-surface-inverse);
+    --footer-fg: var(--color-on-surface-inverse);
+  }
+
+  .footer[data-surface='accent'] {
+    --footer-bg: var(--color-surface-accent);
+    --footer-fg: var(--color-on-surface-accent);
+  }
+
+  .footer {
+    color: var(--footer-fg);
+    background-color: var(--footer-bg);
+    border-block-start: 1px solid var(--color-border);
+  }
+
+  .footer[data-spacing='none'] {
+    --footer-space: 0rem;
+  }
+
+  .footer[data-spacing='tight'] {
+    --footer-space: var(--space-section-tight);
+  }
+
+  .footer[data-spacing='normal'] {
+    --footer-space: var(--space-section);
+  }
+
+  .footer[data-spacing='loose'] {
+    --footer-space: var(--space-section-loose);
+  }
+
+  .footer > .ui-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.4rem;
+
+    padding-block: var(--footer-space, var(--space-section));
+
+    @variant atMedium {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  .footer__logo {
+    display: flex;
+    align-items: center;
+  }
+
+  .footer__nav {
+    display: flex;
+  }
+
+  .footer__links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+
+    @variant atMedium {
+      flex-direction: row;
+      gap: 3.2rem;
+    }
+  }
+
+  .footer__copyright {
+    font-size: var(--text-sm);
+    color: color-mix(in srgb, currentColor 70%, transparent);
+    text-align: center;
+  }
+}

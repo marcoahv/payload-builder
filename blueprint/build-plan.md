@@ -95,11 +95,23 @@ cleaned-up checkbox version before generating the project overview.
 
 ## Next
 
-- [ ] 10. **Phase 7 legacy port** - migrate the CSS-Modules components
-  quarantined in `src/_legacy/` (`Pagination`, `PostPreview`, `Breadcrumbs`,
-  `PostNavigation`, `Card`, `CategoryFilter`, `Footer`) and the blog routes
-  onto `components/primitives/` and the semantic token system, then delete
-  `src/_legacy`
+- [x] 10a. **Footer port** - rewrite `Footer` against the current schema
+  (the old `Nav` global and `Setting.logoColor`/`logoWhite` fields it used no
+  longer exist), reusing the existing `Logo` component and `header.logo`;
+  gave Footer its own `navLinks` field plus editable appearance (`surface`/
+  `spacing`/`width`, the same shared field every block uses) on a new
+  `footer` global rather than borrowing `header.navLinks`; reorganized
+  `Header`/`Footer` (config + component) under `src/globals/<Name>/`
+- [ ] 10b. **Blog listing page** (`/blog`) - build the missing `CardContainer`
+  grid wrapper and port `Card`, `PostPreview`, `Pagination`, `CategoryFilter`
+  (fixing its duplicate `router` declaration bug), wired into a new
+  `src/app/(frontend)/blog/page.tsx` via the `Section`/`Container`/`Heading`
+  primitives
+- [ ] 10c. **Blog post detail page** (`/blog/[slug]`) - port `Breadcrumbs` and
+  `PostNavigation`, reusing 10b's `Card`/`CardContainer`/`PostPreview` and the
+  existing `RichText` component, wired into
+  `src/app/(frontend)/blog/[slug]/page.tsx`; delete `src/_legacy/` once this
+  lands
 - [ ] 11. **Portable branding token system** - consolidate design tokens
   (colors, typography, spacing, shadows, border-radius) into a single
   portable `branding.css`, usable across different project stacks, plus a

@@ -105,10 +105,12 @@ export interface Config {
   globals: {
     header: Header;
     settings: Setting;
+    footer: Footer;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     settings: SettingsSelect<false> | SettingsSelect<true>;
+    footer: FooterSelect<false> | FooterSelect<true>;
   };
   locale: null;
   widgets: {
@@ -777,6 +779,25 @@ export interface Setting {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer".
+ */
+export interface Footer {
+  id: string;
+  surface?: ('default' | 'muted' | 'inverse' | 'accent') | null;
+  spacing?: ('none' | 'tight' | 'normal' | 'loose') | null;
+  width?: ('narrow' | 'default' | 'wide' | 'full') | null;
+  navLinks?:
+    | {
+        link: string | Page;
+        newTab?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -824,6 +845,25 @@ export interface SettingsSelect<T extends boolean = true> {
   gtmCode?: T;
   siteName?: T;
   siteDescription?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer_select".
+ */
+export interface FooterSelect<T extends boolean = true> {
+  surface?: T;
+  spacing?: T;
+  width?: T;
+  navLinks?:
+    | T
+    | {
+        link?: T;
+        newTab?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
