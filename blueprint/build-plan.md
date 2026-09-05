@@ -1,0 +1,107 @@
+# Build Plan
+
+> One of the two planning docs you provide. Write it directly, develop it through
+> any AI conversation, or optionally run `/discovery`. Keep the items high-level
+> even when `project-plan.md` is detailed; later `/feature` specs hold the depth
+> for each build item.
+
+The features that make up this project, high level and in rough build order, one
+line each, no detail (that comes per feature). Rough is fine at first, but before
+`/overview` runs this file should be shaped into a checkbox list the build loop
+can track.
+
+Keep it as a checklist. Run `/feature` with no number to spec the **next
+unchecked** item, or `/feature 3` / `/feature "login"` to pick a specific one.
+Completed features get checked off here, so the build plan doubles as your
+progress tracker. A big item gets split into sub-items (4a, 4b, etc.) when you
+spec it.
+
+## Continuing after the initial build
+
+This is a living roadmap, not a plan that freezes when the first release is
+done. Keep completed items checked, then append new unchecked features as the
+project grows. Optional milestone headings such as `## MVP` and `## Post-MVP`
+keep a longer plan readable without changing how `/feature` finds the next
+unchecked item.
+
+Do not renumber completed features because their archived specs refer back to
+those numbers. Continue with the next unused number. If a new feature materially
+changes the product direction, users, data, stack, monetization, UI/UX, or
+deployment, update the relevant part of `project-plan.md` too. Then re-run
+`/overview` before spec'ing the feature.
+
+You can edit this file directly or ask the AI to start a new feature by name. If
+`/feature "team workspaces"` does not match an existing item, it will propose the
+new build-plan line and any necessary project-plan changes, wait for approval,
+refresh the overview, and then write the feature spec.
+
+Scaffolding the app (create-next-app, etc.) and prototyping the look are
+pre-build steps, not features (see the README), so don't list them here. Start
+with your first real slice of functionality.
+
+A common order that works well: build the core UI with placeholder data first,
+then wire up data, auth, and integrations. Add deployment readiness only when
+the app is worth shipping or a provider config change is part of the work. Adapt
+it to your project.
+
+## Format
+
+Use checkboxes. Each item should be a feature-sized outcome, not a loose task or
+a whole product area.
+
+Good:
+
+- [ ] 1. **Skill submission** - upload a skill package and save its metadata
+- [ ] 2. **Validation result** - run checks and show pass/fail status for a skill
+- [ ] 3. **Directory listing** - browse and filter published skills
+- [ ] 4. **Deployment readiness** - configure Render or Vercel and verify the
+  production build
+
+Avoid:
+
+- Upload stuff
+- Database
+- Make it look nice
+- Auth, billing, dashboard, validation, and deploy
+
+If your first pass is just rough bullets, that is okay. Run `/overview` after
+filling both planning docs; it will flag plan-shape problems and can propose a
+cleaned-up checkbox version before generating the project overview.
+
+## Shipped
+
+- [x] 1. **Page builder core** - `Pages` collection (Information/Layout/SEO
+  tabs) with a block-based layout field, backed by a single block registry
+  (`src/blocks/registry.ts`) so a new block only needs to be added once
+- [x] 2. **Blocks** - `Hero`, `FeatureGrid`, `CallToAction`, `RichTextBlock`,
+  each with editor-controlled appearance (surface, spacing, width)
+- [x] 3. **Blog engine** - `Posts` collection with author/category
+  relationships, one-featured-post validation, and a rich text body that can
+  embed the same registered blocks
+- [x] 4. **Categories** - `Categories` collection with a reverse `join` back to
+  its related posts
+- [x] 5. **Media pipeline** - `Media` collection with auto blur-placeholder
+  generation, webp thumbnail/card/fullSize/og image sizes, and optional
+  S3-compatible storage (env-gated, falls back to local storage)
+- [x] 6. **Site navigation & branding** - `Header` global (logo/dark logo,
+  icon/dark icon, nav links, social links, CTA buttons, scroll/appearance
+  behavior) and `Settings` global (site name, description, GTM code)
+- [x] 7. **SEO** - `@payloadcms/plugin-seo` wired per document with canonical
+  URL generation, sitemap opt-out, `robots.ts`/`sitemap.ts` routes
+- [x] 8. **Cache-tagged rendering** - page and global reads tagged and
+  revalidated on change/delete so admin edits show up without a stale cache
+- [x] 9. **Admin auth** - `Users` collection with Payload auth gating write
+  access to content
+
+## Next
+
+- [ ] 10. **Phase 7 legacy port** - migrate the CSS-Modules components
+  quarantined in `src/_legacy/` (`Pagination`, `PostPreview`, `Breadcrumbs`,
+  `PostNavigation`, `Card`, `CategoryFilter`, `Footer`) and the blog routes
+  onto `components/primitives/` and the semantic token system, then delete
+  `src/_legacy`
+- [ ] 11. **Portable branding token system** - consolidate design tokens
+  (colors, typography, spacing, shadows, border-radius) into a single
+  portable `branding.css`, usable across different project stacks, plus a
+  personality-selection guide based on the Website-Personalities-Framework
+  (`theory-lectures.pdf` §26)

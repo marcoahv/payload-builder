@@ -51,3 +51,6 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# course/reference material, not app code
+/theory-lectures.pdf
