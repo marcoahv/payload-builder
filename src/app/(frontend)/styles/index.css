@@ -30,3 +30,8 @@
 @import './sections/_section.css';
 @import './sections/_header.css';
 @import './sections/_footer.css';
+
+@import './components/_card.css';
+@import './components/_post-preview.css';
+@import './components/_pagination.css';
+@import './components/_category-filter.css';

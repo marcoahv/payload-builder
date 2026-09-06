@@ -1,0 +1,30 @@
+/* CategoryFilter.
+   @layer components, not @utility — see the note at the top of _section.css. */
+
+@layer components {
+  .category-filter {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+  }
+
+  .category-filter__label {
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .category-filter__select {
+    padding: 0.8rem 1.2rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+
+    background-color: var(--color-surface);
+    color: inherit;
+    font-size: var(--text-sm);
+
+    &:focus-visible {
+      outline: 2px solid var(--color-focus);
+      outline-offset: 2px;
+    }
+  }
+}

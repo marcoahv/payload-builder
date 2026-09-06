@@ -1,0 +1,49 @@
+/* PostPreview.
+   @layer components, not @utility — see the note at the top of _section.css.
+
+   Used for the featured/latest-post banner on the blog listing, and (in the
+   header variant) the post detail page's own header block. */
+
+@layer components {
+  .post-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+
+    @variant atMedium {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+  }
+
+  .post-preview__link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .post-preview__content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .post-preview__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.6rem;
+  }
+
+  .post-preview__meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+
+    font-size: var(--text-sm);
+    color: color-mix(in srgb, currentColor 70%, transparent);
+  }
+
+  .post-preview__summary {
+    color: color-mix(in srgb, currentColor 85%, transparent);
+  }
+}

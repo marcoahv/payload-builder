@@ -1,9 +1,14 @@
 import { type CollectionConfig, slugField } from 'payload'
+import { revalidateCategories, deleteCategories } from './hooks/revalidateCategories'
 
 export const Categories: CollectionConfig = {
   slug: 'categories',
   admin: {
     useAsTitle: 'name',
+  },
+  hooks: {
+    afterChange: [revalidateCategories],
+    afterDelete: [deleteCategories],
   },
   fields: [
     {

@@ -102,11 +102,13 @@ cleaned-up checkbox version before generating the project overview.
   `spacing`/`width`, the same shared field every block uses) on a new
   `footer` global rather than borrowing `header.navLinks`; reorganized
   `Header`/`Footer` (config + component) under `src/globals/<Name>/`
-- [ ] 10b. **Blog listing page** (`/blog`) - build the missing `CardContainer`
-  grid wrapper and port `Card`, `PostPreview`, `Pagination`, `CategoryFilter`
-  (fixing its duplicate `router` declaration bug), wired into a new
+- [x] 10b. **Blog listing page** (`/blog`) - built the missing `CardContainer`
+  grid wrapper and ported `Card`, `PostPreview`, `Pagination`, `CategoryFilter`
+  (fixed its duplicate `router` declaration bug), wired into a new
   `src/app/(frontend)/blog/page.tsx` via the `Section`/`Container`/`Heading`
-  primitives
+  primitives; added a missing `Categories` cache-invalidation hook and fixed
+  an untagged page-metadata cache; first Vitest test in the project
+  (`Pagination`'s `buildHref`)
 - [ ] 10c. **Blog post detail page** (`/blog/[slug]`) - port `Breadcrumbs` and
   `PostNavigation`, reusing 10b's `Card`/`CardContainer`/`PostPreview` and the
   existing `RichText` component, wired into

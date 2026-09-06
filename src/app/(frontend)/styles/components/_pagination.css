@@ -1,0 +1,61 @@
+/* Pagination.
+   @layer components, not @utility — see the note at the top of _section.css. */
+
+@layer components {
+  .pagination {
+    display: flex;
+    justify-content: center;
+  }
+
+  .pagination__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.8rem;
+    list-style: none;
+  }
+
+  .pagination__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 3.6rem;
+    height: 3.6rem;
+    padding-inline: 0.8rem;
+    border-radius: var(--radius-sm);
+
+    text-decoration: none;
+    color: inherit;
+    font-size: var(--text-sm);
+
+    transition: background-color 0.3s ease 0s;
+
+    &:hover {
+      background-color: var(--color-surface-muted);
+    }
+  }
+
+  .pagination__link--arrow {
+    min-width: auto;
+    padding-inline: 1.6rem;
+  }
+
+  .pagination__link--active {
+    background-color: var(--color-action);
+    color: var(--color-on-action);
+
+    &:hover {
+      background-color: var(--color-action);
+    }
+  }
+
+  .pagination__link--disabled {
+    color: var(--color-border-strong);
+    cursor: not-allowed;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+}

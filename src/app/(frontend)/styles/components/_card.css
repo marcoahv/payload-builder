@@ -1,0 +1,72 @@
+/* Card + CardContainer.
+   @layer components, not @utility — see the note at the top of _section.css.
+
+   Kept in one file: CardContainer only exists to grid Cards, and its
+   variant type is defined alongside Card's own variant prop (both re-export
+   from CardContainer.tsx). */
+
+@layer components {
+  .card-container {
+    display: grid;
+    gap: 2.4rem;
+    grid-template-columns: repeat(auto-fill, minmax(28rem, 1fr));
+  }
+
+  .card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background-color: var(--color-surface);
+
+    transition: box-shadow 0.3s ease 0s;
+
+    &:hover {
+      box-shadow: 0 0.4rem 1.6rem color-mix(in srgb, var(--color-neutral-1000) 15%, transparent);
+    }
+  }
+
+  .card__image {
+    position: relative;
+  }
+
+  .card__category-badge {
+    position: absolute;
+    top: 1.2rem;
+    left: 1.2rem;
+    z-index: 1;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+
+    padding: 0.4rem 1.2rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-surface);
+    color: var(--color-on-surface);
+    font-size: var(--text-sm);
+  }
+
+  .card__content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    padding: 1.6rem;
+  }
+
+  .card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.6rem;
+  }
+
+  .card__meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+
+    font-size: var(--text-sm);
+    color: color-mix(in srgb, currentColor 70%, transparent);
+  }
+}
