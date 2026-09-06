@@ -1,19 +1,17 @@
-import React from 'react'
-import classes from './index.module.css'
+import { Container } from '@/components/primitives'
 import { getServerSideURL } from '@/utilities/getUrl'
-import { Container } from '@/components/Container'
 import Link from 'next/link'
 
-interface BreadcrumbItem {
+type BreadcrumbItem = {
   label: string
   href?: string
 }
 
-interface BreadcrumbProps {
+type BreadcrumbsProps = {
   items: BreadcrumbItem[]
 }
 
-export const Breadcrumbs: React.FC<BreadcrumbProps> = ({ items }) => {
+export function Breadcrumbs({ items }: BreadcrumbsProps) {
   const serverUrl = getServerSideURL()
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -25,38 +23,30 @@ export const Breadcrumbs: React.FC<BreadcrumbProps> = ({ items }) => {
       ...(item.href && { item: `${serverUrl}${item.href}` }),
     })),
   }
+
   return (
     <>
       <script
-        type={'application/ld+json'}
+        type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className={classes.wrapper}>
+      <div className="breadcrumbs">
         <Container>
-          <nav
-            aria-label={'Breadcrumb'}
-            className={classes.breadcrumbs}
-          >
-            <ol className={classes.list}>
+          <nav aria-label="Breadcrumb">
+            <ol className="breadcrumbs__list">
               {items.map((item, index) => (
-                <li key={item.label} className={classes.item}>
+                <li key={item.label} className="breadcrumbs__item">
                   {item.href ? (
-                    <Link href={item.href} className={classes.link}>
+                    <Link href={item.href} className="breadcrumbs__link">
                       {item.label}
                     </Link>
                   ) : (
-                    <span
-                      className={classes.current}
-                      aria-current={'page'}
-                    >
+                    <span className="breadcrumbs__current" aria-current="page">
                       {item.label}
                     </span>
                   )}
                   {index < items.length - 1 && (
-                    <span
-                      className={classes.separator}
-                      aria-hidden={'true'}
-                    >
+                    <span className="breadcrumbs__separator" aria-hidden="true">
                       /
                     </span>
                   )}

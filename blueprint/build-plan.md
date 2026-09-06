@@ -109,7 +109,7 @@ cleaned-up checkbox version before generating the project overview.
   primitives; added a missing `Categories` cache-invalidation hook and fixed
   an untagged page-metadata cache; first Vitest test in the project
   (`Pagination`'s `buildHref`)
-- [ ] 10c. **Blog post detail page** (`/blog/[slug]`) - port `Breadcrumbs` and
+- [x] 10c. **Blog post detail page** (`/blog/[slug]`) - port `Breadcrumbs` and
   `PostNavigation`, reusing 10b's `Card`/`CardContainer`/`PostPreview` and the
   existing `RichText` component, wired into
   `src/app/(frontend)/blog/[slug]/page.tsx`; delete `src/_legacy/` once this
