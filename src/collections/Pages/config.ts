@@ -1,4 +1,8 @@
-import { type CollectionConfig, slugField } from 'payload'
+import {
+  type BlockSlug,
+  type CollectionConfig,
+  slugField,
+} from 'payload'
 import { SEOField } from '@/fields/seo/config'
 import { blockSlugs } from '@/blocks/registry'
 import { deletePage, updatePage } from './hooks/revalidatePage'
@@ -52,7 +56,7 @@ export const Pages: CollectionConfig = {
               // Derived from the registry, so a newly registered block becomes
               // available here automatically. Blocks are defined once in
               // payload.config.ts and referenced by slug.
-              blockReferences: blockSlugs,
+              blockReferences: blockSlugs as BlockSlug[],
               blocks: [],
             },
           ],
