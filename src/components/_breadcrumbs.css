@@ -3,6 +3,7 @@
 
 @layer components {
   .breadcrumbs {
+    margin-top: 7.6rem;
     padding-block: 1.6rem;
     background-color: var(--color-surface-muted);
     color: var(--color-on-surface-muted);

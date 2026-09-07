@@ -1,7 +1,0 @@
-@theme static {
-  --breakpoint-*: initial;
-  --breakpoint-atSmall: 640px;
-  --breakpoint-atMedium: 768px;
-  --breakpoint-atLarge: 1024px;
-  --breakpoint-atXLarge: 1280px;
-}

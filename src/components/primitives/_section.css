@@ -38,7 +38,7 @@
   /* Vertical rhythm.
      Each variant publishes its value as --section-space rather than setting
      padding directly, so other rules can build on the editor's choice instead
-     of re-deriving it. The fixed-header overlay in sections/_header.css adds
+     of re-deriving it. The fixed-header overlay in globals/Header/Component/_header.css adds
      the header's height to this value on the first section. */
 
   .ui-section[data-spacing='none'] {

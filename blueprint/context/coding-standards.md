@@ -76,16 +76,27 @@
 
 ## Styling
 
-- Tailwind CSS v4, CSS-first config: tokens are defined with `@theme static` in
-  `src/app/(frontend)/styles/tokens/`, no `tailwind.config.js`
-- Two-tier token system, and this indirection is load-bearing, not stylistic:
-  - `_palette.css` holds the only literal color values in the project
-  - `_semantic.css` defines role tokens (`--color-surface`,
-    `--color-on-surface`, ...) that point at the palette
+- Tailwind CSS v4, CSS-first config: tokens are defined with `@theme static`,
+  no `tailwind.config.js`
+- `src/app/(frontend)/styles/base/_base-tokens.css` + `base/_alias-tokens.css` are the
+  two portable files another project edits when reusing this `styles/`
+  folder; see each file's own header comment and `styles/personalities.md`
+  - Split by raw vs. derived, and this indirection is load-bearing, not
+    stylistic: `_base-tokens.css` holds every literal value (palette colors,
+    radius, type scale, spacing, and the section/header layout rhythm) - the
+    only place a literal belongs; `_alias-tokens.css` holds everything built
+    by referencing those values via `var()`/`light-dark()`/`color-mix()` -
+    semantic role tokens (`--color-surface`, `--color-on-surface`, ...),
+    shadows, and font-family aliases. A dark-mode value never gets an inline
+    literal - it's always its own named `_base-tokens.css` palette step, even
+    if used only once
   - Components and blocks reference **only** semantic tokens, never the
-    palette directly, so a brand swap only touches `_palette.css`
+    palette directly, so a brand swap only touches `_base-tokens.css`
   - Surface/foreground tokens are defined in matching pairs so text can't end
     up unreadable on its own background
+- `_base-tokens.css`'s Breakpoints section is pure device-viewport mechanics,
+  not a personality-tunable value - kept there anyway so every raw literal
+  in the styles system lives in one file
 - Theming is `light-dark()`-based (no `.dark` class, no JS toggle); driven by
   `color-scheme` in `base/_reset.css`
 - Editors pick semantic roles (`surface`, `spacing`, `width`), never raw

@@ -1,3 +1,8 @@
+/* Derived tokens only — every value here is built by referencing another
+   custom property (var(), light-dark(), color-mix()), never a bare literal.
+   Raw values (the palette, radius, typography scale, spacing, layout
+   rhythm) live in ./_base-tokens.css instead. */
+
 /*=============================================
 *            Semantic — role tokens
 =============================================*/
@@ -19,10 +24,10 @@
 @theme static {
   /* --- Surfaces, each with its matching foreground --- */
 
-  --color-surface: light-dark(var(--color-neutral-0), #16181b);
+  --color-surface: light-dark(var(--color-neutral-0), var(--color-neutral-950));
   --color-on-surface: light-dark(var(--color-neutral-900), var(--color-neutral-100));
 
-  --color-surface-muted: light-dark(var(--color-primary-light), #1f2226);
+  --color-surface-muted: light-dark(var(--color-primary-light), var(--color-neutral-850));
   --color-on-surface-muted: light-dark(var(--color-neutral-700), var(--color-neutral-300));
 
   --color-surface-inverse: light-dark(var(--color-neutral-900), var(--color-primary-light));
@@ -39,7 +44,7 @@
 
   /* --- Lines and focus --- */
 
-  --color-border: light-dark(var(--color-neutral-300), #33373d);
+  --color-border: light-dark(var(--color-neutral-300), var(--color-neutral-800));
   --color-border-strong: light-dark(var(--color-neutral-700), var(--color-neutral-500));
   --color-focus: var(--color-secondary-dark);
 
@@ -56,30 +61,45 @@
   --color-on-danger: var(--color-neutral-100);
   --color-success: var(--color-green);
   --color-on-success: var(--color-neutral-100);
+}
 
-  /* --- Radius --- */
+/* Gradients stay out of the --color-* namespace: Tailwind builds bg-*, text-*
+   AND border-* from every colour token, and a gradient value breaks the latter
+   two. Define them as utilities instead. */
+@utility ui-gradient-primary {
+  background-image: linear-gradient(
+    to right,
+    var(--color-primary-light),
+    var(--color-primary-dark)
+  );
+}
 
-  --radius-sm: 0.4rem;
-  --radius-md: 0.8rem;
-  --radius-lg: 1.6rem;
-  --radius-pill: 999rem;
+/*=============================================
+*                Shadows
+=============================================*/
 
-  /* --- Section rhythm ---
-     Vertical breathing room for a <Section>. Referenced by the spacing
-     variants in sections/_section.css. */
+/* Built with color-mix() against the neutral ramp, same construction as the
+   overlay tokens above, so shadows stay theme-consistent instead of a flat
+   black at a fixed opacity. --shadow-md preserves the card hover shadow that
+   predates this token (see components/_card.css). */
 
-  --space-section-tight: 4rem;
-  --space-section: 8rem;
-  --space-section-loose: 12rem;
+@theme static {
+  --shadow-sm: 0 0.2rem 0.8rem color-mix(in srgb, var(--color-neutral-1000) 10%, transparent);
+  --shadow-md: 0 0.4rem 1.6rem color-mix(in srgb, var(--color-neutral-1000) 15%, transparent);
+  --shadow-lg: 0 0.8rem 2.4rem color-mix(in srgb, var(--color-neutral-1000) 20%, transparent);
+}
 
-  /* --- Header ---
-     Three heights, editor-selectable (see fields/appearance.ts). A fixed
-     header is out of flow and cannot push content down; sections/_header.css
-     reserves the matching amount of room on <main> instead, so the offset is
-     derived from the editor's own choice rather than duplicated as a margin
-     on whichever block happens to come first. */
+/*=============================================
+*        Typography — font-family aliases
+=============================================*/
 
-  --header-height-compact: 6rem;
-  --header-height-normal: 8rem;
-  --header-height-tall: 10rem;
+@theme static {
+  /* The --font-<name> variables come from next/font in 'fonts.js' and are
+     applied to <html> in 'layout.tsx'. Referencing the Google font by its
+     literal name would NOT work: next/font self-hosts each family under a
+     generated name, so only the variable resolves.
+     These generate the font-primary / font-secondary / font-tertiary utilities. */
+  --font-primary: var(--font-montserrat), sans-serif;
+  --font-secondary: var(--font-vollkorn), serif;
+  --font-tertiary: var(--font-doto), sans-serif;
 }

@@ -70,6 +70,7 @@ export interface Config {
     featureGrid: FeatureGridBlock;
     callToAction: CallToActionBlock;
     richText: RichTextBlock;
+    table: TableBlock;
   };
   collections: {
     users: User;
@@ -292,6 +293,47 @@ export interface RichTextBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TableBlock".
+ */
+export interface TableBlock {
+  surface?: ('default' | 'muted' | 'inverse' | 'accent') | null;
+  spacing?: ('none' | 'tight' | 'normal' | 'loose') | null;
+  width?: ('narrow' | 'default' | 'wide' | 'full') | null;
+  heading?: string | null;
+  /**
+   * Style the first row as column headings instead of a normal row.
+   */
+  hasHeaderRow?: boolean | null;
+  /**
+   * Keep the same number of cells in every row - columns are not enforced automatically.
+   */
+  rows: {
+    cells: {
+      content: {
+        root: {
+          type: string;
+          children: {
+            type: any;
+            version: number;
+            [k: string]: unknown;
+          }[];
+          direction: ('ltr' | 'rtl') | null;
+          format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+          indent: number;
+          version: number;
+        };
+        [k: string]: unknown;
+      };
+      id?: string | null;
+    }[];
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'table';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -329,7 +371,7 @@ export interface Page {
   slug: string;
   title: string;
   featuredImage: string | Media;
-  blocks?: (HeroBlock | FeatureGridBlock | CallToActionBlock | RichTextBlock)[] | null;
+  blocks?: (HeroBlock | FeatureGridBlock | CallToActionBlock | RichTextBlock | TableBlock)[] | null;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -369,6 +411,22 @@ export interface Post {
     name?: string | null;
   };
   featuredImage: string | Media;
+  /**
+   * The title, meta row, and banner image at the top of the post.
+   */
+  headerAppearance?: {
+    surface?: ('default' | 'muted' | 'inverse' | 'accent') | null;
+    spacing?: ('none' | 'tight' | 'normal' | 'loose') | null;
+    width?: ('narrow' | 'default' | 'wide' | 'full') | null;
+  };
+  /**
+   * The rich text content below the header.
+   */
+  bodyAppearance?: {
+    surface?: ('default' | 'muted' | 'inverse' | 'accent') | null;
+    spacing?: ('none' | 'tight' | 'normal' | 'loose') | null;
+    width?: ('narrow' | 'default' | 'wide' | 'full') | null;
+  };
   body: {
     root: {
       type: string;
@@ -635,6 +693,20 @@ export interface PostsSelect<T extends boolean = true> {
         name?: T;
       };
   featuredImage?: T;
+  headerAppearance?:
+    | T
+    | {
+        surface?: T;
+        spacing?: T;
+        width?: T;
+      };
+  bodyAppearance?:
+    | T
+    | {
+        surface?: T;
+        spacing?: T;
+        width?: T;
+      };
   body?: T;
   meta?:
     | T

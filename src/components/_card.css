@@ -23,7 +23,7 @@
     transition: box-shadow 0.3s ease 0s;
 
     &:hover {
-      box-shadow: 0 0.4rem 1.6rem color-mix(in srgb, var(--color-neutral-1000) 15%, transparent);
+      box-shadow: var(--shadow-md);
     }
   }
 

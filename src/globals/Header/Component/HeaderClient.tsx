@@ -113,7 +113,7 @@ export function HeaderClient({ header }: { header: Header }) {
           </button>
 
           {/* Rendered once. CSS reshapes it into a drawer below atMedium and an
-              inline row above — see styles/sections/_header.css. */}
+              inline row above — see ./_header.css. */}
           <nav
             id="header-nav"
             ref={navRef}

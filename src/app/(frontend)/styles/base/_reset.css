@@ -1,6 +1,6 @@
 @layer base {
   :root {
-    /* Drives every light-dark() call in tokens/_semantic.css. Without this,
+    /* Drives every light-dark() call in ./_alias-tokens.css. Without this,
        light-dark() resolves to its first argument and dark mode never engages. */
     color-scheme: light dark;
   }
@@ -13,11 +13,21 @@
     box-sizing: border-box;
   }
 
+  html {
+    /* root font size / 100% = 16px */
+    /* 62.5% = 10px */
+    font-size: 62.5%;
+    /* makes 1rem = 10px */
+  }
+
   html,
   body {
     scroll-behavior: smooth;
     margin: 0;
     padding: 0;
+    font-weight: var(--font-weight-regular);
+    line-height: 1.2;
+    color: var(--color-neutral-900);
   }
 
   body {

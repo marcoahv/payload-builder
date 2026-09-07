@@ -7,6 +7,7 @@ import {
 } from '@payloadcms/richtext-lexical'
 import { populateAuthor } from '@/collections/Posts/hooks/populateAuthor'
 import { SEOField } from '@/fields/seo/config'
+import { appearanceField } from '@/fields/appearance'
 import { blockSlugs } from '@/blocks/registry'
 import {
   deletePost,
@@ -126,6 +127,29 @@ export const Posts: CollectionConfig = {
               name: 'featuredImage',
               relationTo: 'media',
               required: true,
+            },
+          ],
+        },
+        {
+          label: 'Appearance',
+          fields: [
+            {
+              type: 'group',
+              name: 'headerAppearance',
+              label: 'Header section',
+              admin: {
+                description: 'The title, meta row, and banner image at the top of the post.',
+              },
+              fields: appearanceField(),
+            },
+            {
+              type: 'group',
+              name: 'bodyAppearance',
+              label: 'Body section',
+              admin: {
+                description: 'The rich text content below the header.',
+              },
+              fields: appearanceField(),
             },
           ],
         },

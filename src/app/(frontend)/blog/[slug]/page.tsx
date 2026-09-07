@@ -6,7 +6,12 @@ import type { Category, Post } from '@/payload-types'
 import { Card } from '@/components/Card'
 import { CardContainer } from '@/components/CardContainer'
 import { RichText } from '@/components/RichText'
-import { Section, Container, Heading } from '@/components/primitives'
+import {
+  Section,
+  Container,
+  Heading,
+  Stack,
+} from '@/components/primitives'
 import { PostPreview } from '@/components/PostPreview'
 import { PostNavigation } from '@/components/PostNavigation'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
@@ -30,7 +35,9 @@ export async function generateStaticParams() {
   return docs.map((doc) => ({ slug: doc.slug }))
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { slug } = await params
   const post = await queryPost({ slug })
   if (!post) {
@@ -61,14 +68,21 @@ export default async function Page({ params }: PageProps) {
   return (
     <>
       <Breadcrumbs items={breadcrumbs} />
-      <Section>
-        <Container>
-          <Heading level={1}>{post.title}</Heading>
-          <PostPreview post={post} variant="header" showLink={false} imageSize="fullSize" />
+      <Section surface={post.headerAppearance?.surface} spacing={post.headerAppearance?.spacing}>
+        <Container width={post.headerAppearance?.width}>
+          <Stack gap="lg">
+            <Heading level={1}>{post.title}</Heading>
+            <PostPreview
+              post={post}
+              variant="header"
+              showLink={false}
+              imageSize="fullSize"
+            />
+          </Stack>
         </Container>
       </Section>
-      <Section>
-        <Container width="narrow">
+      <Section surface={post.bodyAppearance?.surface} spacing={post.bodyAppearance?.spacing}>
+        <Container width={post.bodyAppearance?.width}>
           <div className="ui-prose">
             <RichText data={post.body} />
           </div>
@@ -229,7 +243,10 @@ const queryPreviousPost = ({
           title: true,
         },
       })
-      return (prevPost.docs?.[0] as Pick<Post, 'slug' | 'title'> | undefined) || null
+      return (
+        (prevPost.docs?.[0] as
+          Pick<Post, 'slug' | 'title'> | undefined) || null
+      )
     },
     ['previous-post', post.id],
     { tags: ['blog'] },
@@ -278,7 +295,10 @@ const queryNextPost = ({
           title: true,
         },
       })
-      return (nextPost.docs?.[0] as Pick<Post, 'slug' | 'title'> | undefined) || null
+      return (
+        (nextPost.docs?.[0] as
+          Pick<Post, 'slug' | 'title'> | undefined) || null
+      )
     },
     ['next-post', post.id],
     { tags: ['blog'] },

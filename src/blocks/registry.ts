@@ -4,11 +4,13 @@ import { Hero as HeroConfig } from './Hero/config'
 import { FeatureGrid as FeatureGridConfig } from './FeatureGrid/config'
 import { CallToAction as CallToActionConfig } from './CallToAction/config'
 import { RichTextBlock as RichTextBlockConfig } from './RichTextBlock/config'
+import { Table as TableConfig } from './Table/config'
 
 import { Hero } from './Hero/Component'
 import { FeatureGrid } from './FeatureGrid/Component'
 import { CallToAction } from './CallToAction/Component'
 import { RichTextBlock } from './RichTextBlock/Component'
+import { Table } from './Table/Component'
 
 /**
  * The single place blocks are registered.
@@ -29,6 +31,7 @@ export const blockConfigs: Block[] = [
   FeatureGridConfig,
   CallToActionConfig,
   RichTextBlockConfig,
+  TableConfig,
 ]
 
 /**
@@ -47,6 +50,7 @@ export const blockComponents: Record<string, React.FC<any>> = {
   featureGrid: FeatureGrid,
   callToAction: CallToAction,
   richText: RichTextBlock,
+  table: Table,
 }
 
 /** Every registered slug — hand to a `blocks` field's `blockReferences`. */

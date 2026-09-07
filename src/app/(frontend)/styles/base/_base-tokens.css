@@ -1,0 +1,195 @@
+/* Raw values only — every literal number and color in the styles system,
+   brand-tunable or not. Nothing here references another custom property.
+   Derived/composed values (semantic color roles, shadows, the two
+   font-family aliases) live in ./_alias-tokens.css instead.
+   See ../personalities.md before hand-editing these values for a new project
+   — every section here, including Layout's whitespace/rhythm values, is
+   something a personality can tune, not just Palette/Radius/Typography. */
+
+/*=============================================
+*            Palette — primitive tokens
+=============================================*/
+
+/* Raw colour values, and the ONLY place a literal colour is allowed.
+   Components must never reference these directly — they reference the
+   semantic roles in _alias-tokens.css, which point here. That indirection is what
+   lets a brand swap change these values without breaking contrast.
+
+   `@theme static` (not plain `@theme`) because Tailwind tree-shakes theme
+   tokens nothing references in source. These are a public contract meant to
+   be overridden at runtime by the Theme global, so they must always be
+   emitted, referenced or not. */
+
+@theme static {
+  /* Primary */
+  --color-primary: #d6c1a1;
+  --color-primary-light: #e2dbcf;
+  --color-primary-dark: #b2905c;
+
+  /* Secondary */
+  --color-secondary: #49b7d2;
+  --color-secondary-light: #9fd0dc;
+  --color-secondary-dark: #137c95;
+
+  /* Neutral ramp.
+     Numbered by lightness position, not by the property they get used with:
+     a token named --color-text-* would generate the stuttering `text-text-dark`
+     and, worse, permit `bg-text-light` — a name claiming "text" while setting a
+     background. Numbers also leave room to insert a step (a mid-tone becomes
+     -400) without renaming anything — -800/-850/-950 below were added for
+     exactly that reason, so _alias-tokens.css's dark-mode values never need an
+     inline literal. */
+  --color-neutral-0: #ffffff;
+  --color-neutral-100: #f2f2f2;
+  --color-neutral-300: #c5c5c5;
+  --color-neutral-500: #8d8d8d;
+  --color-neutral-700: #545454;
+  --color-neutral-800: #33373d;
+  --color-neutral-850: #1f2226;
+  --color-neutral-900: #1d1f22;
+  --color-neutral-950: #16181b;
+  --color-neutral-1000: #000000;
+
+  /* Utility */
+  --color-red: #d12727;
+  --color-red-light: #f5c4c6;
+
+  --color-blue: #0468db;
+  --color-blue-light: #b4d2f4;
+
+  --color-yellow: #ffb800;
+  --color-yellow-light: #f3d483;
+
+  --color-green: #3c8505;
+  --color-green-light: #acd091;
+}
+
+/*=============================================
+*                 Radius
+=============================================*/
+
+@theme static {
+  --radius-sm: 0.4rem;
+  --radius-md: 0.8rem;
+  --radius-lg: 1.6rem;
+  --radius-pill: 999rem;
+}
+
+/*=============================================
+*                Typography
+=============================================*/
+
+/* Font-family aliases (--font-primary/secondary/tertiary) are NOT here —
+   they reference next/font variables via var(), so they're a derived token,
+   not a raw value. See _alias-tokens.css. */
+
+@theme static {
+  /* Heading font sizes */
+  --text-h1-mobile: 3.6rem;
+  --text-h1-tablet: 4.8rem;
+  --text-h1-desktop: 6rem;
+
+  --text-h2-mobile: 3rem;
+  --text-h2-tablet: 3.6rem;
+  --text-h2-desktop: 4.8rem;
+
+  --text-h3-mobile: 2.4rem;
+  --text-h3-tablet: 3rem;
+  --text-h3-desktop: 3.6rem;
+
+  --text-h4-mobile: 2.4rem;
+  --text-h4-desktop: 3rem;
+
+  --text-h5-mobile: 2rem;
+  --text-h5-desktop: 2.4rem;
+
+  --text-h6-mobile: 1.8rem;
+  --text-h6-desktop: 2rem;
+
+  /* Font sizes */
+  --text-xs: 1.2rem;
+  --text-sm: 1.4rem;
+  --text-base: 1.6rem;
+  --text-lg: 1.8rem;
+  --text-xl: 2rem;
+  --text-2xl: 2.4rem;
+  --text-3xl: 3rem;
+  --text-4xl: 3.6rem;
+  --text-5xl: 4.8rem;
+  --text-6xl: 6rem;
+  --text-7xl: 7.2rem;
+  --text-8xl: 9.6rem;
+  --text-9xl: 12.8rem;
+
+  /* Font weights */
+  --font-weight-thin: 100;
+  --font-weight-extralight: 200;
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+}
+
+/*=============================================
+*                 Spacing
+=============================================*/
+
+@theme static {
+  /* Every spacing utility (p-*, m-*, gap-*, w-*, ...) is this value times the
+     step number: p-4 = 4 * 0.4rem = 1.6rem = 16px.
+
+     Tailwind's default is 0.25rem, which assumes a 16px root. This project sets
+     html { font-size: 62.5% } so 1rem = 10px, which would silently shrink the
+     whole scale to 62.5% (p-4 would be 10px, not 16px). 0.4rem restores the
+     familiar 4px-per-step rhythm. */
+  --spacing: 0.4rem;
+}
+
+/*=============================================
+*                 Layout
+=============================================*/
+
+@theme static {
+  /* --- Section rhythm ---
+     Vertical breathing room for a <Section>. Referenced by the spacing
+     variants in components/primitives/_section.css. */
+
+  --space-section-tight: 4rem;
+  --space-section: 8rem;
+  --space-section-loose: 12rem;
+
+  /* --- Header ---
+     Three heights, editor-selectable (see fields/appearance.ts). A fixed
+     header is out of flow and cannot push content down; globals/Header/
+     Component/_header.css reserves the matching amount of room on <main>
+     instead, so the offset is derived from the editor's own choice rather
+     than duplicated as a margin on whichever block happens to come first. */
+
+  --header-height-compact: 6rem;
+  --header-height-normal: 8rem;
+  --header-height-tall: 10rem;
+}
+
+/*=============================================
+*               Breakpoints
+=============================================*/
+
+/* Pure device-viewport mechanics, not a personality-tunable value - kept
+   here anyway so every raw literal in the styles system lives in one file.
+
+   --breakpoint-*: initial clears Tailwind's own default breakpoint scale;
+   it only works because this file is imported right after `tailwindcss`
+   itself in index.css — a @theme override must be processed AFTER
+   Tailwind's defaults to win. See index.css and README.md's "Import order
+   is load-bearing" section before moving this file's import. */
+
+@theme static {
+  --breakpoint-*: initial;
+  --breakpoint-atSmall: 640px;
+  --breakpoint-atMedium: 768px;
+  --breakpoint-atLarge: 1024px;
+  --breakpoint-atXLarge: 1280px;
+}

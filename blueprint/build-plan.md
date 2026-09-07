@@ -114,7 +114,7 @@ cleaned-up checkbox version before generating the project overview.
   existing `RichText` component, wired into
   `src/app/(frontend)/blog/[slug]/page.tsx`; delete `src/_legacy/` once this
   lands
-- [ ] 11. **Portable branding token system** - consolidate design tokens
+- [x] 11. **Portable branding token system** - consolidate design tokens
   (colors, typography, spacing, shadows, border-radius) into a single
   portable `branding.css`, usable across different project stacks, plus a
   personality-selection guide based on the Website-Personalities-Framework

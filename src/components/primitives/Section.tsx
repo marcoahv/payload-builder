@@ -17,7 +17,7 @@ export type SectionProps = {
  *
  * Surface and spacing are chosen from a fixed set of ROLES, never raw values.
  * Each `data-surface` sets background and foreground together (see
- * `styles/sections/_section.css`), so a section cannot render unreadable text
+ * `./_section.css`), so a section cannot render unreadable text
  * on its own background.
  *
  * Wrap the contents in <Container> to constrain their width; this element

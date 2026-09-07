@@ -1,0 +1,39 @@
+/* Table block.
+   @layer components, not @utility — see the note at the top of _section.css. */
+
+@layer components {
+  .ui-table-scroll {
+    overflow-x: auto;
+  }
+
+  .ui-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .ui-table th,
+  .ui-table td {
+    padding: 1.2rem 1.6rem;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .ui-table th {
+    background-color: var(--color-surface-muted);
+    color: var(--color-on-surface-muted);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .ui-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* Cell content comes from a plain (non-prose) RichText render, so its
+     paragraphs carry no spacing rules of their own - without this a lone
+     paragraph would keep the library's own default margin and look
+     misaligned against sibling cells. */
+  .ui-table :is(th, td) p {
+    margin: 0;
+  }
+}

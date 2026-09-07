@@ -63,7 +63,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
         <Header />
         {/* No offset class here on purpose: whether <main> needs one — and how
             much — depends on the header's own position and height, both
-            editor-chosen. styles/sections/_header.css applies it via a
+            editor-chosen. globals/Header/Component/_header.css applies it via a
             body:has() rule keyed off the header's data attributes, so a fixed
             header always gets the right padding and a sticky/static one
             correctly gets none. */}

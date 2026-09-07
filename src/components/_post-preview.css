@@ -25,7 +25,7 @@
   .post-preview__content {
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
+    gap: 1.2rem;
   }
 
   .post-preview__meta {

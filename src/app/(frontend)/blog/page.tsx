@@ -7,7 +7,10 @@ import { Card } from '@/components/Card'
 import { CardContainer } from '@/components/CardContainer'
 import { PostPreview } from '@/components/PostPreview'
 import { Section, Container, Heading } from '@/components/primitives'
-import { Pagination, SearchParamsProps } from '@/components/Pagination'
+import {
+  Pagination,
+  SearchParamsProps,
+} from '@/components/Pagination'
 import { CategoryFilter } from '@/components/CategoryFilter'
 import { Metadata } from 'next'
 import { generateMeta } from '@/utilities/generateMeta'
@@ -30,7 +33,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Page({ searchParams }: Props) {
-  const { page: pageParam, category: categoryParam } = await searchParams
+  const { page: pageParam, category: categoryParam } =
+    await searchParams
   const currentPage = Number(pageParam) || 1
 
   const [page, categories, featuredBlog, blogs] = await Promise.all([
@@ -55,7 +59,9 @@ export default async function Page({ searchParams }: Props) {
           <Heading level={1}>{page.title}</Heading>
           {isDoc<Post>(heroPost) && (
             <div>
-              <Heading>{featuredBlog ? 'Featured post' : 'Latest post'}</Heading>
+              <Heading>
+                {featuredBlog ? 'Featured post' : 'Latest post'}
+              </Heading>
               <PostPreview post={heroPost} imageSize={'fullSize'} />
             </div>
           )}

@@ -4,13 +4,16 @@
    effect when it is processed after Tailwind's own defaults. */
 @import 'tailwindcss';
 
-/* Tokens: the design vocabulary. Palette holds raw values; semantic maps
-   roles onto it. Components use semantic only. */
-@import './tokens/_palette.css';
-@import './tokens/_semantic.css';
-@import './tokens/_typography.css';
-@import './tokens/_spacing.css';
-@import './tokens/_breakpoints.css';
+/* Tokens: the design vocabulary, split by whether a value is raw or derived.
+   base/_base-tokens.css holds every raw value in the styles system (palette,
+   radius, typography scale, spacing, layout rhythm, breakpoints) — the file
+   a new project hand-edits, see its own header comment. base/_alias-tokens.css
+   holds everything built BY REFERENCING those raw values (semantic color
+   roles, shadows, font-family aliases) — it must load after
+   base/_base-tokens.css. Components use semantic roles only, never the
+   palette. */
+@import './base/_base-tokens.css';
+@import './base/_alias-tokens.css';
 
 @import './base/_reset.css';
 
@@ -24,16 +27,19 @@
 @import './elements/_prose.css';
 @import './elements/_subheading.css';
 
-@import './layouts/_boxes.css';
-@import './layouts/_containers.css';
+/* Component- and section-specific presentational CSS colocates with the
+   .tsx it styles rather than living here - these files already import
+   Payload types, so filing their CSS in the app-agnostic styles/ folder
+   never made them portable, only harder to find. This is the one place that
+   still has to know where every one of them lives. */
+@import '../../../components/primitives/_section.css';
+@import '../../../globals/Header/Component/_header.css';
+@import '../../../globals/Footer/Component/_footer.css';
 
-@import './sections/_section.css';
-@import './sections/_header.css';
-@import './sections/_footer.css';
-
-@import './components/_breadcrumbs.css';
-@import './components/_card.css';
-@import './components/_post-preview.css';
-@import './components/_pagination.css';
-@import './components/_post-navigation.css';
-@import './components/_category-filter.css';
+@import '../../../components/_breadcrumbs.css';
+@import '../../../components/_card.css';
+@import '../../../components/_post-preview.css';
+@import '../../../components/_pagination.css';
+@import '../../../components/_post-navigation.css';
+@import '../../../components/_category-filter.css';
+@import '../../../blocks/Table/_table.css';
