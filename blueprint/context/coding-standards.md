@@ -60,9 +60,6 @@
 - Routes: `src/app/(frontend)/...` (public site) and
   `src/app/(payload)/...` (admin + Payload's own API/GraphQL routes)
 - Utilities: `src/utilities/[name].ts`
-- `src/_legacy/` is quarantined, pre-migration code excluded from the
-  TypeScript build (`tsconfig.json` `exclude`) - see its `README.md` for what's
-  pending a Phase 7 port; don't add new code there or import from it
 
 ## Naming
 

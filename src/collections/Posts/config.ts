@@ -1,4 +1,4 @@
-import { type CollectionConfig, slugField } from 'payload'
+import { type BlockSlug, type CollectionConfig, slugField } from 'payload'
 import { Post } from '@/payload-types'
 import {
   BlocksFeature,
@@ -167,7 +167,7 @@ export const Posts: CollectionConfig = {
                   // Derived from the registry, so blocks stay available
                   // inside post bodies without a second list to maintain.
                   BlocksFeature({
-                    blocks: blockSlugs,
+                    blocks: blockSlugs as BlockSlug[],
                   }),
                 ],
               }),
