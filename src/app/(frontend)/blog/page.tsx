@@ -6,7 +6,12 @@ import type { Category, Post } from '@/payload-types'
 import { Card } from '@/components/Card'
 import { CardContainer } from '@/components/CardContainer'
 import { PostPreview } from '@/components/PostPreview'
-import { Section, Container, Heading } from '@/components/primitives'
+import {
+  Section,
+  Container,
+  Heading,
+  Stack,
+} from '@/components/primitives'
 import {
   Pagination,
   SearchParamsProps,
@@ -54,23 +59,25 @@ export default async function Page({ searchParams }: Props) {
 
   return (
     <>
-      <Section>
-        <Container>
-          <Heading level={1}>{page.title}</Heading>
-          {isDoc<Post>(heroPost) && (
-            <div>
-              <Heading>
-                {featuredBlog ? 'Featured post' : 'Latest post'}
-              </Heading>
-              <PostPreview post={heroPost} imageSize={'fullSize'} />
-            </div>
-          )}
+      <Section surface={page.heroAppearance?.surface} spacing={page.heroAppearance?.spacing}>
+        <Container width={page.heroAppearance?.width}>
+          <Stack gap="lg">
+            <Heading level={1}>{page.title}</Heading>
+            {isDoc<Post>(heroPost) && (
+              <Stack gap="md">
+                <Heading>
+                  {featuredBlog ? 'Featured post' : 'Latest post'}
+                </Heading>
+                <PostPreview post={heroPost} imageSize={'fullSize'} />
+              </Stack>
+            )}
+          </Stack>
         </Container>
       </Section>
       {blogs.docs.length > 0 && (
-        <Section surface="muted">
-          <Container>
-            <div>
+        <Section surface={page.listAppearance?.surface ?? 'muted'} spacing={page.listAppearance?.spacing}>
+          <Container width={page.listAppearance?.width}>
+            <Stack gap="lg">
               <Heading>More Posts</Heading>
               <CategoryFilter
                 categories={categories.docs}
@@ -90,7 +97,7 @@ export default async function Page({ searchParams }: Props) {
                 hasPrev={blogs.hasPrevPage}
                 searchParams={currentSearchParams}
               />
-            </div>
+            </Stack>
           </Container>
         </Section>
       )}
@@ -120,6 +127,8 @@ const queryBlogPage = unstable_cache(
         title: true,
         meta: true,
         featuredImage: true,
+        heroAppearance: true,
+        listAppearance: true,
       },
     })
     return page.docs?.[0] || null
