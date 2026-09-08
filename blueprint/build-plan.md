@@ -119,3 +119,7 @@ cleaned-up checkbox version before generating the project overview.
   portable `branding.css`, usable across different project stacks, plus a
   personality-selection guide based on the Website-Personalities-Framework
   (`theory-lectures.pdf` §26)
+- [x] 12. **Button color variants** - add a Ghost button (no fill/border,
+  background on hover) alongside Primary/Outline; Primary and Outline use
+  `--color-primary`/`--color-primary-light` fill+hover, Outline adds a
+  `--color-primary-dark` border

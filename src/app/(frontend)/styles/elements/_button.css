@@ -1,36 +1,57 @@
-/* ui-btn is the base. ui-btn-outline and ui-btn-cta are MODIFIERS: they only
-   restyle what ui-btn already set, so always pair them —
-   class="ui-btn ui-btn-cta", never class="ui-btn-cta" on its own. */
+/* ui-btn is the base and carries the default (Solid) look, driven by the
+   --btn-tone/--btn-tone-dark custom properties it sets. ui-btn-outline and
+   ui-btn-ghost are shape MODIFIERS: they only restyle what ui-btn already
+   set, so always pair them — class="ui-btn ui-btn-outline", never
+   class="ui-btn-outline" on its own. ui-btn-secondary is a color modifier,
+   independent of shape: it only overrides --btn-tone/--btn-tone-dark, so it
+   combines with any shape — class="ui-btn ui-btn-outline ui-btn-secondary". */
 
 @utility ui-btn {
   display: inline-block;
   padding: 1rem 3rem;
   cursor: pointer;
 
-  background-color: var(--color-surface-strong);
-  color: var(--color-on-surface-strong);
+  --btn-tone: var(--color-primary);
+  --btn-tone-dark: var(--color-primary-dark);
+
+  background-color: var(--btn-tone);
+  color: var(--color-on-surface-muted);
   font-size: var(--text-sm);
   font-weight: var(--font-weight-regular);
   text-decoration: none;
+  border: none;
 
   transition: all 0.3s ease 0s;
 
   &:hover {
-    background-color: var(--color-surface-strong-hover);
-    color: var(--color-on-surface-inverse);
+    background-color: var(--btn-tone-dark);
+    color: var(--color-on-surface-muted-hover);
   }
 }
 
 @utility ui-btn-outline {
-  border: 0.2rem solid var(--color-border-strong);
-}
-
-@utility ui-btn-cta {
-  background-color: var(--color-action);
-  color: var(--color-on-action);
-  border: none;
+  background-color: transparent;
+  border: 0.2rem solid var(--btn-tone-dark);
+  color: var(--btn-tone-dark);
 
   &:hover {
-    background-color: var(--color-action-hover);
+    background-color: var(--btn-tone);
+    color: var(--color-on-surface-muted);
   }
+}
+
+@utility ui-btn-ghost {
+  background-color: transparent;
+  border: none;
+  color: var(--btn-tone-dark);
+
+  &:hover {
+    background-color: var(--btn-tone);
+    color: var(--color-on-surface-muted);
+  }
+}
+
+@utility ui-btn-secondary {
+  --btn-tone: var(--color-secondary);
+  --btn-tone-dark: var(--color-secondary-dark);
 }

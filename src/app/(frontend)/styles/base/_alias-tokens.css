@@ -38,6 +38,9 @@
      dark text in both color schemes. */
   --color-surface-muted: var(--color-primary);
   --color-on-surface-muted: var(--color-neutral-900);
+  /* Fixed white for Solid's hover fill (--btn-tone-dark) — that fill is
+     fixed too, not a light-dark() pair, so its text stays fixed as well. */
+  --color-on-surface-muted-hover: var(--color-neutral-0);
 
   /* The literal flip of --color-surface/--color-on-surface: whichever value
      default shows in light mode, inverse shows in dark mode, and vice versa. */

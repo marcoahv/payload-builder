@@ -38,10 +38,20 @@ export const CallToAction: Block = {
         {
           name: 'variant',
           type: 'select',
+          defaultValue: 'solid',
+          options: [
+            { label: 'Solid', value: 'solid' },
+            { label: 'Outline', value: 'outline' },
+            { label: 'Ghost', value: 'ghost' },
+          ],
+        },
+        {
+          name: 'color',
+          type: 'select',
           defaultValue: 'primary',
           options: [
             { label: 'Primary', value: 'primary' },
-            { label: 'Outline', value: 'outline' },
+            { label: 'Secondary', value: 'secondary' },
           ],
         },
       ],

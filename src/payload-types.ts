@@ -157,7 +157,8 @@ export interface HeroBlock {
     | {
         label: string;
         url: string;
-        variant?: ('primary' | 'outline') | null;
+        variant?: ('solid' | 'outline' | 'ghost') | null;
+        color?: ('primary' | 'secondary') | null;
         id?: string | null;
       }[]
     | null;
@@ -257,7 +258,8 @@ export interface CallToActionBlock {
   links: {
     label: string;
     url: string;
-    variant?: ('primary' | 'outline') | null;
+    variant?: ('solid' | 'outline' | 'ghost') | null;
+    color?: ('primary' | 'secondary') | null;
     id?: string | null;
   }[];
   id?: string | null;
@@ -860,7 +862,8 @@ export interface Header {
     | {
         label: string;
         url: string;
-        variant?: ('primary' | 'outline') | null;
+        variant?: ('solid' | 'outline' | 'ghost') | null;
+        color?: ('primary' | 'secondary') | null;
         id?: string | null;
       }[]
     | null;
@@ -942,6 +945,7 @@ export interface HeaderSelect<T extends boolean = true> {
         label?: T;
         url?: T;
         variant?: T;
+        color?: T;
         id?: T;
       };
   updatedAt?: T;

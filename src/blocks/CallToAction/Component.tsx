@@ -29,9 +29,13 @@ export function CallToAction(props: CallToActionBlock) {
                 <Link
                   key={link.id ?? link.url}
                   href={link.url}
-                  className={
-                    link.variant === 'outline' ? 'ui-btn ui-btn-outline' : 'ui-btn ui-btn-cta'
-                  }
+                  className={[
+                    'ui-btn',
+                    { outline: 'ui-btn-outline', ghost: 'ui-btn-ghost' }[link.variant ?? ''],
+                    link.color === 'secondary' ? 'ui-btn-secondary' : '',
+                  ]
+                    .filter(Boolean)
+                    .join(' ')}
                 >
                   {link.label}
                 </Link>

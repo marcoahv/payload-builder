@@ -187,11 +187,13 @@ export function HeaderClient({ header }: { header: Header }) {
                   <li key={item.id}>
                     <Link
                       href={item.url}
-                      className={
-                        item.variant === 'outline'
-                          ? 'ui-btn ui-btn-outline'
-                          : 'ui-btn ui-btn-cta'
-                      }
+                      className={[
+                        'ui-btn',
+                        { outline: 'ui-btn-outline', ghost: 'ui-btn-ghost' }[item.variant ?? ''],
+                        item.color === 'secondary' ? 'ui-btn-secondary' : '',
+                      ]
+                        .filter(Boolean)
+                        .join(' ')}
                       onClick={close}
                     >
                       {item.label}
