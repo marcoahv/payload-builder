@@ -89,7 +89,7 @@
 
   --color-border: light-dark(
     var(--color-neutral-100),
-    var(--color-neutral-700)
+    var(--color-neutral-850)
   );
   --color-border-strong: light-dark(
     var(--color-neutral-700),
