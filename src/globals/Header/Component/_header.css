@@ -77,7 +77,11 @@
      the chosen surface back through color-mix() rather than a fixed overlay
      token, so every surface gets its own correctly-tinted translucent bar. */
   .header[data-transparent='true'].header--scrolled {
-    background-color: color-mix(in srgb, var(--header-bg) 85%, transparent);
+    background-color: color-mix(
+      in srgb,
+      var(--header-bg) 85%,
+      transparent
+    );
     backdrop-filter: blur(10px);
   }
 
@@ -109,7 +113,10 @@
     justify-content: space-between;
     gap: 2rem;
 
-    min-height: var(--header-height-current, var(--header-height-normal));
+    min-height: var(
+      --header-height-current,
+      var(--header-height-normal)
+    );
   }
 
   /* --- Fixed-header overlay ---
@@ -141,9 +148,12 @@
     --header-offset: var(--header-height-tall);
   }
 
-  body:has(.header[data-position='fixed']) main .ui-section:first-child {
+  body:has(.header[data-position='fixed'])
+    main
+    .ui-section:first-child {
     padding-block-start: calc(
-      var(--section-space, var(--space-section)) + var(--header-offset, var(--header-height-normal))
+      var(--section-space, var(--space-section)) +
+        var(--header-offset, var(--header-height-normal))
     );
   }
 
@@ -211,7 +221,8 @@
      atMedium, so it must never intercept clicks there. */
   .header__scrim {
     position: fixed;
-    inset: var(--header-height-current, var(--header-height-normal)) 0 0 0;
+    inset: var(--header-height-current, var(--header-height-normal)) 0
+      0 0;
     z-index: -1;
 
     background-color: var(--color-scrim);

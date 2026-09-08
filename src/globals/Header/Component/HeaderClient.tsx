@@ -5,18 +5,18 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
-import type { Header, Media, Page } from '@/payload-types'
+import type { Header, Media } from '@/payload-types'
 import { isDoc } from '@/utilities/isDoc'
+import { hrefForNavLink } from '@/utilities/navLink'
 import { Container } from '@/components/primitives'
 import { Logo } from './Logo'
-
-const hrefFor = (page: Page) => (page.slug === 'home' ? '/' : `/${page.slug}`)
 
 export function HeaderClient({ header }: { header: Header }) {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const navRef = useRef<HTMLElement>(null)
   const pathname = usePathname()
+  const [prevPathname, setPrevPathname] = useState(pathname)
 
   const close = useCallback(() => setOpen(false), [])
 
@@ -32,11 +32,15 @@ export function HeaderClient({ header }: { header: Header }) {
     transparentAtTop,
   } = header
 
-  // Close on navigation. Without this the drawer survives a route change and
-  // covers the page the visitor just asked for.
-  useEffect(() => {
+  // Close the drawer on navigation. Without this it survives a route change
+  // and covers the page the visitor just asked for. Adjusted during render
+  // (React's documented pattern for "reset state when a value changes")
+  // rather than in an effect, so there's no post-commit flash of the drawer
+  // still open over the new page.
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname)
     setOpen(false)
-  }, [pathname])
+  }
 
   // Only relevant when the bar can actually turn transparent — a header that
   // always shows its surface has nothing to react to on scroll.
@@ -109,7 +113,11 @@ export function HeaderClient({ header }: { header: Header }) {
             aria-expanded={open}
             aria-controls="header-nav"
           >
-            {open ? <X size={28} aria-hidden /> : <Menu size={28} aria-hidden />}
+            {open ? (
+              <X size={28} aria-hidden />
+            ) : (
+              <Menu size={28} aria-hidden />
+            )}
           </button>
 
           {/* Rendered once. CSS reshapes it into a drawer below atMedium and an
@@ -123,17 +131,22 @@ export function HeaderClient({ header }: { header: Header }) {
             {navLinks && navLinks.length > 0 && (
               <ul className="header__links">
                 {navLinks.map((item) => {
-                  if (!isDoc<Page>(item.link)) return null
+                  const href = hrefForNavLink(item)
+                  if (!href) return null
                   return (
                     <li key={item.id}>
                       <Link
                         className="ui-link"
-                        href={hrefFor(item.link)}
+                        href={href}
                         target={item.newTab ? '_blank' : undefined}
-                        rel={item.newTab ? 'noopener noreferrer' : undefined}
+                        rel={
+                          item.newTab
+                            ? 'noopener noreferrer'
+                            : undefined
+                        }
                         onClick={close}
                       >
-                        {item.link.title}
+                        {item.label}
                       </Link>
                     </li>
                   )

@@ -146,7 +146,7 @@ export interface UserAuthOperations {
  * via the `definition` "HeroBlock".
  */
 export interface HeroBlock {
-  surface?: ('default' | 'muted' | 'inverse' | 'accent') | null;
+  surface?: ('default' | 'inverse' | 'muted' | 'accent') | null;
   spacing?: ('none' | 'tight' | 'normal' | 'loose') | null;
   width?: ('narrow' | 'default' | 'wide' | 'full') | null;
   heading: string;
@@ -227,7 +227,7 @@ export interface Media {
  * via the `definition` "FeatureGridBlock".
  */
 export interface FeatureGridBlock {
-  surface?: ('default' | 'muted' | 'inverse' | 'accent') | null;
+  surface?: ('default' | 'inverse' | 'muted' | 'accent') | null;
   spacing?: ('none' | 'tight' | 'normal' | 'loose') | null;
   width?: ('narrow' | 'default' | 'wide' | 'full') | null;
   heading?: string | null;
@@ -248,7 +248,7 @@ export interface FeatureGridBlock {
  * via the `definition` "CallToActionBlock".
  */
 export interface CallToActionBlock {
-  surface?: ('default' | 'muted' | 'inverse' | 'accent') | null;
+  surface?: ('default' | 'inverse' | 'muted' | 'accent') | null;
   spacing?: ('none' | 'tight' | 'normal' | 'loose') | null;
   width?: ('narrow' | 'default' | 'wide' | 'full') | null;
   heading: string;
@@ -269,7 +269,7 @@ export interface CallToActionBlock {
  * via the `definition` "RichTextBlock".
  */
 export interface RichTextBlock {
-  surface?: ('default' | 'muted' | 'inverse' | 'accent') | null;
+  surface?: ('default' | 'inverse' | 'muted' | 'accent') | null;
   spacing?: ('none' | 'tight' | 'normal' | 'loose') | null;
   width?: ('narrow' | 'default' | 'wide' | 'full') | null;
   content: {
@@ -296,7 +296,7 @@ export interface RichTextBlock {
  * via the `definition` "TableBlock".
  */
 export interface TableBlock {
-  surface?: ('default' | 'muted' | 'inverse' | 'accent') | null;
+  surface?: ('default' | 'inverse' | 'muted' | 'accent') | null;
   spacing?: ('none' | 'tight' | 'normal' | 'loose') | null;
   width?: ('narrow' | 'default' | 'wide' | 'full') | null;
   heading?: string | null;
@@ -372,6 +372,22 @@ export interface Page {
   title: string;
   featuredImage: string | Media;
   blocks?: (HeroBlock | FeatureGridBlock | CallToActionBlock | RichTextBlock | TableBlock)[] | null;
+  /**
+   * The page title and featured/latest post preview at the top of the blog listing.
+   */
+  heroAppearance?: {
+    surface?: ('default' | 'inverse' | 'muted' | 'accent') | null;
+    spacing?: ('none' | 'tight' | 'normal' | 'loose') | null;
+    width?: ('narrow' | 'default' | 'wide' | 'full') | null;
+  };
+  /**
+   * The "More Posts" grid, category filter, and pagination below the hero.
+   */
+  listAppearance?: {
+    surface?: ('default' | 'inverse' | 'muted' | 'accent') | null;
+    spacing?: ('none' | 'tight' | 'normal' | 'loose') | null;
+    width?: ('narrow' | 'default' | 'wide' | 'full') | null;
+  };
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -415,7 +431,7 @@ export interface Post {
    * The title, meta row, and banner image at the top of the post.
    */
   headerAppearance?: {
-    surface?: ('default' | 'muted' | 'inverse' | 'accent') | null;
+    surface?: ('default' | 'inverse' | 'muted' | 'accent') | null;
     spacing?: ('none' | 'tight' | 'normal' | 'loose') | null;
     width?: ('narrow' | 'default' | 'wide' | 'full') | null;
   };
@@ -423,7 +439,7 @@ export interface Post {
    * The rich text content below the header.
    */
   bodyAppearance?: {
-    surface?: ('default' | 'muted' | 'inverse' | 'accent') | null;
+    surface?: ('default' | 'inverse' | 'muted' | 'accent') | null;
     spacing?: ('none' | 'tight' | 'normal' | 'loose') | null;
     width?: ('narrow' | 'default' | 'wide' | 'full') | null;
   };
@@ -660,6 +676,20 @@ export interface PagesSelect<T extends boolean = true> {
   title?: T;
   featuredImage?: T;
   blocks?: T | {};
+  heroAppearance?:
+    | T
+    | {
+        surface?: T;
+        spacing?: T;
+        width?: T;
+      };
+  listAppearance?:
+    | T
+    | {
+        surface?: T;
+        spacing?: T;
+        width?: T;
+      };
   meta?:
     | T
     | {
@@ -781,7 +811,7 @@ export interface Header {
   /**
    * Background, and the matching text colour.
    */
-  surface?: ('default' | 'muted' | 'inverse' | 'accent') | null;
+  surface?: ('default' | 'inverse' | 'muted' | 'accent') | null;
   /**
    * How wide the bar contents run.
    */
@@ -810,7 +840,10 @@ export interface Header {
   iconDark?: (string | null) | Media;
   navLinks?:
     | {
-        link: string | Page;
+        label: string;
+        type?: ('reference' | 'custom') | null;
+        reference?: (string | null) | Page;
+        url?: string | null;
         newTab?: boolean | null;
         id?: string | null;
       }[]
@@ -855,12 +888,15 @@ export interface Setting {
  */
 export interface Footer {
   id: string;
-  surface?: ('default' | 'muted' | 'inverse' | 'accent') | null;
+  surface?: ('default' | 'inverse' | 'muted' | 'accent') | null;
   spacing?: ('none' | 'tight' | 'normal' | 'loose') | null;
   width?: ('narrow' | 'default' | 'wide' | 'full') | null;
   navLinks?:
     | {
-        link: string | Page;
+        label: string;
+        type?: ('reference' | 'custom') | null;
+        reference?: (string | null) | Page;
+        url?: string | null;
         newTab?: boolean | null;
         id?: string | null;
       }[]
@@ -885,7 +921,10 @@ export interface HeaderSelect<T extends boolean = true> {
   navLinks?:
     | T
     | {
-        link?: T;
+        label?: T;
+        type?: T;
+        reference?: T;
+        url?: T;
         newTab?: T;
         id?: T;
       };
@@ -932,7 +971,10 @@ export interface FooterSelect<T extends boolean = true> {
   navLinks?:
     | T
     | {
-        link?: T;
+        label?: T;
+        type?: T;
+        reference?: T;
+        url?: T;
         newTab?: T;
         id?: T;
       };

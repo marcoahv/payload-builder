@@ -1,11 +1,8 @@
 import Link from 'next/link'
 import { getCachedGlobal } from '@/utilities/getGlobals'
-import { isDoc } from '@/utilities/isDoc'
+import { hrefForNavLink } from '@/utilities/navLink'
 import { Container } from '@/components/primitives'
 import { Logo } from '@/globals/Header/Component/Logo'
-import type { Page } from '@/payload-types'
-
-const hrefFor = (page: Page) => (page.slug === 'home' ? '/' : `/${page.slug}`)
 
 /**
  * Server component, self-fetching like `Header` — no props, so it can be
@@ -41,16 +38,17 @@ export async function Footer() {
           <nav className="footer__nav" aria-label="Footer navigation">
             <ul className="footer__links">
               {navLinks.map((item) => {
-                if (!isDoc<Page>(item.link)) return null
+                const href = hrefForNavLink(item)
+                if (!href) return null
                 return (
                   <li key={item.id}>
                     <Link
                       className="ui-link"
-                      href={hrefFor(item.link)}
+                      href={href}
                       target={item.newTab ? '_blank' : undefined}
                       rel={item.newTab ? 'noopener noreferrer' : undefined}
                     >
-                      {item.link.title}
+                      {item.label}
                     </Link>
                   </li>
                 )

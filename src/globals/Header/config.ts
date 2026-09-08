@@ -1,6 +1,7 @@
 import { type GlobalConfig } from 'payload'
 import { revalidateGlobal } from '@/globals/hooks/revalidateGlobal'
 import { headerAppearanceField } from '@/fields/appearance'
+import { linkField } from '@/fields/link'
 
 export const Header: GlobalConfig = {
   slug: 'header',
@@ -62,15 +63,7 @@ export const Header: GlobalConfig = {
         },
       },
       fields: [
-        {
-          name: 'link',
-          type: 'relationship',
-          relationTo: 'pages',
-          required: true,
-          admin: {
-            appearance: 'drawer',
-          },
-        },
+        ...linkField(),
         {
           name: 'newTab',
           label: 'Open in a new tab',

@@ -1,6 +1,7 @@
 import { type GlobalConfig } from 'payload'
 import { revalidateGlobal } from '@/globals/hooks/revalidateGlobal'
 import { appearanceField } from '@/fields/appearance'
+import { linkField } from '@/fields/link'
 
 export const Footer: GlobalConfig = {
   slug: 'footer',
@@ -23,15 +24,7 @@ export const Footer: GlobalConfig = {
         },
       },
       fields: [
-        {
-          name: 'link',
-          type: 'relationship',
-          relationTo: 'pages',
-          required: true,
-          admin: {
-            appearance: 'drawer',
-          },
-        },
+        ...linkField(),
         {
           name: 'newTab',
           label: 'Open in a new tab',
