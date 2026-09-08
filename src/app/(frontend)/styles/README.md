@@ -84,7 +84,7 @@ This is the core of the system.
 
 Components reference **only** the semantic tier. Swapping the palette then re-brands the whole site without touching a component. A block that says `bg-primary` is welded to one colour; a block that says `bg-surface-muted` follows the brand.
 
-Surfaces and their foregrounds are defined **as pairs** — picking `surface-muted` also determines `on-surface-muted`, so text can never end up unreadable on its own background. Every dark-mode value is its own named palette step too — never an inline literal buried inside a `light-dark()` call — so a role's derivation in `_alias-tokens.css` is always a pure reference back to `_base-tokens.css`.
+Surfaces and their foregrounds are defined **as pairs** — picking `surface-muted` also determines `on-surface-muted`, so text can never end up unreadable on its own background. Every dark-mode value is its own named palette step too — never an inline literal buried inside a `light-dark()` call — so a role's derivation in `_alias-tokens.css` is always a pure reference back to `_base-tokens.css`. `surface-muted` ("Primary color" in the admin) and `surface-accent` ("Secondary color") are the deliberate exception: they resolve to a single fixed value — the primary/secondary brand color plus dark text — in both color schemes, unlike `default`/`inverse`, which still flip with `light-dark()`.
 
 ### Never name a palette token after a CSS property
 

@@ -7,8 +7,8 @@
   padding: 1rem 3rem;
   cursor: pointer;
 
-  background-color: var(--color-neutral-300);
-  color: var(--color-neutral-900);
+  background-color: var(--color-surface-strong);
+  color: var(--color-on-surface-strong);
   font-size: var(--text-sm);
   font-weight: var(--font-weight-regular);
   text-decoration: none;
@@ -16,21 +16,21 @@
   transition: all 0.3s ease 0s;
 
   &:hover {
-    background-color: var(--color-neutral-700);
-    color: var(--color-neutral-100);
+    background-color: var(--color-surface-strong-hover);
+    color: var(--color-on-surface-inverse);
   }
 }
 
 @utility ui-btn-outline {
-  border: 0.2rem solid var(--color-neutral-700);
+  border: 0.2rem solid var(--color-border-strong);
 }
 
 @utility ui-btn-cta {
-  background-color: var(--color-primary-light);
+  background-color: var(--color-action);
+  color: var(--color-on-action);
   border: none;
 
   &:hover {
-    background-color: var(--color-primary-dark);
-    color: var(--color-neutral-100);
+    background-color: var(--color-action-hover);
   }
 }

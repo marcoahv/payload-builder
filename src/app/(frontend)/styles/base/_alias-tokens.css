@@ -24,28 +24,77 @@
 @theme static {
   /* --- Surfaces, each with its matching foreground --- */
 
-  --color-surface: light-dark(var(--color-neutral-0), var(--color-neutral-950));
-  --color-on-surface: light-dark(var(--color-neutral-900), var(--color-neutral-100));
+  --color-surface: light-dark(
+    var(--color-neutral-0),
+    var(--color-neutral-950)
+  );
+  --color-on-surface: light-dark(
+    var(--color-neutral-900),
+    var(--color-neutral-100)
+  );
 
-  --color-surface-muted: light-dark(var(--color-primary-light), var(--color-neutral-850));
-  --color-on-surface-muted: light-dark(var(--color-neutral-700), var(--color-neutral-300));
+  /* Fixed brand-color surface ("Primary color" in the admin) — deliberately
+     NOT a light-dark() pair like its siblings: the same primary color and
+     dark text in both color schemes. */
+  --color-surface-muted: var(--color-primary);
+  --color-on-surface-muted: var(--color-neutral-900);
 
-  --color-surface-inverse: light-dark(var(--color-neutral-900), var(--color-primary-light));
-  --color-on-surface-inverse: light-dark(var(--color-neutral-100), var(--color-neutral-900));
+  /* The literal flip of --color-surface/--color-on-surface: whichever value
+     default shows in light mode, inverse shows in dark mode, and vice versa. */
+  --color-surface-inverse: light-dark(
+    var(--color-neutral-950),
+    var(--color-neutral-0)
+  );
+  --color-on-surface-inverse: light-dark(
+    var(--color-neutral-100),
+    var(--color-neutral-900)
+  );
 
-  --color-surface-accent: light-dark(var(--color-secondary-light), var(--color-secondary-dark));
-  --color-on-surface-accent: light-dark(var(--color-neutral-900), var(--color-neutral-100));
+  /* Fixed brand-color surface ("Secondary color" in the admin) — same
+     exception as surface-muted above, using the secondary color instead. */
+  --color-surface-accent: var(--color-secondary);
+  --color-on-surface-accent: var(--color-neutral-900);
+
+  /* A stronger neutral surface for the default/outline button — distinct
+     from --color-surface so it doesn't blend into the page background. */
+  --color-surface-strong: light-dark(
+    var(--color-neutral-300),
+    var(--color-neutral-700)
+  );
+  --color-on-surface-strong: light-dark(
+    var(--color-neutral-900),
+    var(--color-neutral-100)
+  );
+  --color-surface-strong-hover: light-dark(
+    var(--color-neutral-700),
+    var(--color-neutral-500)
+  );
 
   /* --- Actions --- */
 
-  --color-action: light-dark(var(--color-primary-dark), var(--color-primary));
-  --color-on-action: light-dark(var(--color-neutral-100), var(--color-neutral-900));
-  --color-action-hover: light-dark(var(--color-secondary-dark), var(--color-secondary-light));
+  --color-action: light-dark(
+    var(--color-primary-dark),
+    var(--color-primary)
+  );
+  --color-on-action: light-dark(
+    var(--color-neutral-100),
+    var(--color-neutral-900)
+  );
+  --color-action-hover: light-dark(
+    var(--color-secondary-dark),
+    var(--color-secondary-light)
+  );
 
   /* --- Lines and focus --- */
 
-  --color-border: light-dark(var(--color-neutral-300), var(--color-neutral-800));
-  --color-border-strong: light-dark(var(--color-neutral-700), var(--color-neutral-500));
+  --color-border: light-dark(
+    var(--color-neutral-100),
+    var(--color-neutral-700)
+  );
+  --color-border-strong: light-dark(
+    var(--color-neutral-700),
+    var(--color-neutral-500)
+  );
   --color-focus: var(--color-secondary-dark);
 
   /* --- Overlays ---
@@ -53,7 +102,11 @@
      palette swap and both colour schemes without a second definition. */
 
   /* Dims the page behind an open mobile drawer. */
-  --color-scrim: color-mix(in srgb, var(--color-neutral-1000) 50%, transparent);
+  --color-scrim: color-mix(
+    in srgb,
+    var(--color-neutral-1000) 50%,
+    transparent
+  );
 
   /* --- Feedback --- */
 
@@ -61,6 +114,10 @@
   --color-on-danger: var(--color-neutral-100);
   --color-success: var(--color-green);
   --color-on-success: var(--color-neutral-100);
+  --color-warning: var(--color-yellow);
+  --color-on-warning: var(--color-neutral-900);
+  --color-info: var(--color-blue);
+  --color-on-info: var(--color-neutral-100);
 }
 
 /* Gradients stay out of the --color-* namespace: Tailwind builds bg-*, text-*
@@ -84,9 +141,12 @@
    predates this token (see components/_card.css). */
 
 @theme static {
-  --shadow-sm: 0 0.2rem 0.8rem color-mix(in srgb, var(--color-neutral-1000) 10%, transparent);
-  --shadow-md: 0 0.4rem 1.6rem color-mix(in srgb, var(--color-neutral-1000) 15%, transparent);
-  --shadow-lg: 0 0.8rem 2.4rem color-mix(in srgb, var(--color-neutral-1000) 20%, transparent);
+  --shadow-sm: 0 0.2rem 0.8rem
+    color-mix(in srgb, var(--color-neutral-1000) 10%, transparent);
+  --shadow-md: 0 0.4rem 1.6rem
+    color-mix(in srgb, var(--color-neutral-1000) 15%, transparent);
+  --shadow-lg: 0 0.8rem 2.4rem
+    color-mix(in srgb, var(--color-neutral-1000) 20%, transparent);
 }
 
 /*=============================================

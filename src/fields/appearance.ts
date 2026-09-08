@@ -10,9 +10,9 @@ import type { Field, Option } from 'payload'
 
 export const SURFACE_OPTIONS: Option[] = [
   { label: 'Default', value: 'default' },
-  { label: 'Muted', value: 'muted' },
   { label: 'Inverse', value: 'inverse' },
-  { label: 'Accent', value: 'accent' },
+  { label: 'Primary color', value: 'muted' },
+  { label: 'Secondary color', value: 'accent' },
 ]
 
 export const SPACING_OPTIONS: Option[] = [
