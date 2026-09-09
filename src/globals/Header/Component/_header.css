@@ -85,11 +85,6 @@
     backdrop-filter: blur(10px);
   }
 
-  .header[data-transparent='false'],
-  .header[data-transparent='true'].header--scrolled {
-    border-block-end: 1px solid var(--color-border);
-  }
-
   /* --- Height ---
      Only sets the custom property; --header-bar reads it below. Kept as a
      separate step so the :has() rule further down can key off the same
