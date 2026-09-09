@@ -829,7 +829,7 @@ export interface Header {
   transparentAtTop?: boolean | null;
   logo: string | Media;
   /**
-   * Optional. Shown when the visitor prefers a dark colour scheme. Falls back to the main logo.
+   * Optional. Shown wherever the header background is dark — for a Default surface that’s the visitor’s dark colour scheme, but for an Inverse surface it’s the opposite (light colour scheme). Falls back to the main logo.
    */
   logoDark?: (string | null) | Media;
   /**

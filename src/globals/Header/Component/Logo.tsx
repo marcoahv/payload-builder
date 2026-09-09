@@ -1,33 +1,55 @@
 import Link from 'next/link'
-import type { CSSProperties } from 'react'
 import type { Media } from '@/payload-types'
 import { isDoc } from '@/utilities/isDoc'
 
 /**
  * Surface-aware logo.
  *
- * Renders the mark as a CSS mask filled with currentColor rather than as an
- * <img>, so it takes the colour of whatever surface it sits on — the header's
- * own, or the section beneath it when the bar is transparent. One asset covers
- * every surface and both colour schemes; see elements/_logo.css.
- *
- * The URL is CMS data, so it arrives as an inline custom property. That is
- * dynamic content rather than a styling decision — no colours or sizes are set
- * here.
+ * Renders two real logo assets (`logo` and `logoDark`) and lets CSS in
+ * _header.css decide which is visible for the current surface, OS colour
+ * scheme, and — while the bar is transparent — the section underneath it.
+ * `logoDark` falls back to `logo` when the editor hasn't uploaded one, so a
+ * header never ends up with a missing image.
  */
-export function Logo({ logo, className }: { logo?: Media | string | null; className?: string }) {
-  if (!isDoc<Media>(logo) || !logo.url) return null
+export function Logo({
+  logo,
+  logoDark,
+  className,
+}: {
+  logo?: Media | string | null
+  logoDark?: Media | string | null
+  className?: string
+}) {
+  const light = isDoc<Media>(logo) && logo.url ? logo : null
+  const dark = isDoc<Media>(logoDark) && logoDark.url ? logoDark : light
 
-  const style = {
-    '--logo-src': `url("${logo.url}")`,
-    ...(logo.width && logo.height ? { '--logo-ratio': `${logo.width} / ${logo.height}` } : {}),
-  } as CSSProperties
+  if (!light || !dark) return null
 
   return (
     <Link className={className} href="/" aria-label="Home">
       {/* aria-hidden: the link already carries the accessible name, and without
           this the logo is announced twice. */}
-      <span className="ui-logo-mark" aria-hidden="true" style={style} />
+      <span className="ui-logo" aria-hidden="true">
+        {/* eslint-disable-next-line @next/next/no-img-element -- admin-uploaded
+            SVGs of arbitrary size; next/image would reject SVG sources
+            (no dangerouslyAllowSVG) and requires dimensions this data can't
+            always guarantee. */}
+        <img
+          className="ui-logo__img ui-logo__img--logo"
+          src={light.url!}
+          width={light.width ?? undefined}
+          height={light.height ?? undefined}
+          alt=""
+        />
+        {/* eslint-disable-next-line @next/next/no-img-element -- see above */}
+        <img
+          className="ui-logo__img ui-logo__img--logo-dark"
+          src={dark.url!}
+          width={dark.width ?? undefined}
+          height={dark.height ?? undefined}
+          alt=""
+        />
+      </span>
     </Link>
   )
 }

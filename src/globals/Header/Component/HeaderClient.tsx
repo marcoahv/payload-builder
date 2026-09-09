@@ -22,6 +22,7 @@ export function HeaderClient({ header }: { header: Header }) {
 
   const {
     logo,
+    logoDark,
     navLinks,
     socialLinks,
     ctaButtons,
@@ -104,7 +105,7 @@ export function HeaderClient({ header }: { header: Header }) {
     >
       <Container width={width}>
         <div className="header__bar">
-          <Logo logo={logo} className="header__logo" />
+          <Logo logo={logo} logoDark={logoDark} className="header__logo" />
 
           <button
             className="header__toggle"

@@ -1,30 +1,26 @@
-/* Logo mark, tinted by the surface it sits on.
+/* Logo mark: two real assets, one CSS-selected.
 
-   The asset is used as a MASK, not as an image: its alpha channel cuts the
-   shape out of a currentColor fill. That means one asset serves every surface
-   and both colour schemes, with no per-surface rules and no second upload —
-   the mark follows `color`, exactly like the text beside it.
-
-   Requires a single-colour mark with real transparency. A multi-colour logo
-   would flatten to a silhouette; that case wants a plain <img> instead.
-
-   --logo-src and --logo-ratio are set inline from CMS data in Logo.tsx. */
+   `logo` and `logoDark` (Logo.tsx) are both rendered as real <img> elements
+   at all times; `.ui-logo__img--logo-dark` starts hidden here, and
+   _header.css toggles which one is visible based on the header's surface,
+   the OS colour scheme, and — while the bar is transparent — the section
+   underneath it. No masking or recolouring: unlike the old single-asset
+   mask approach, each asset is used as-is, so a multi-colour logo works
+   fine here. */
 
 @layer components {
-  .ui-logo-mark {
+  .ui-logo {
+    display: flex;
+    align-items: center;
+  }
+
+  .ui-logo__img {
     display: block;
     height: 4.8rem;
-    aspect-ratio: var(--logo-ratio, 1);
+    width: auto;
+  }
 
-    background-color: currentColor;
-
-    /* Verified in the built output: Lightning CSS emits the -webkit- variants
-       of all four properties, including for these var() values. Worth
-       re-checking if browser targets change — an unmasked element paints a
-       solid currentColor RECTANGLE where the logo should be. */
-    mask-image: var(--logo-src);
-    mask-size: contain;
-    mask-repeat: no-repeat;
-    mask-position: center;
+  .ui-logo__img--logo-dark {
+    display: none;
   }
 }
