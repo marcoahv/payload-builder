@@ -1,10 +1,14 @@
 @utility ui-link {
   display: block;
-  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.2em;
   cursor: pointer;
   font-weight: var(--font-weight-regular);
   font-size: var(--text-base);
-  transition: color 0.3s ease 0s;
+  transition:
+    color 0.3s ease 0s,
+    text-decoration-color 0.3s ease 0s;
   height: auto;
 
   white-space: nowrap;
@@ -21,6 +25,6 @@
      brand colour reads on light surfaces and disappears on dark ones. */
   &:hover {
     color: color-mix(in srgb, currentColor 70%, transparent);
-    text-decoration: underline;
+    text-decoration-color: currentColor;
   }
 }
