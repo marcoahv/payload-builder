@@ -141,3 +141,8 @@ cleaned-up checkbox version before generating the project overview.
   doesn't corrupt or get corrupted by the existing Pages/Posts live-preview
   hooks it now coexists with; Footer and Settings live preview stay a
   separate future addition
+- [x] 17. **Footer live preview** - extend the `useScopedLivePreview` hook
+  from feature 16 to the `Footer` global's own fields (`navLinks`,
+  appearance); Footer's logo/site-name (borrowed from Header/Settings) stay
+  non-reactive during preview, matching how Post's breadcrumbs stayed
+  non-reactive in feature 15
