@@ -91,11 +91,6 @@
     left: 0;
   }
 
-  .header[data-position='sticky'] {
-    position: sticky;
-    top: 0;
-  }
-
   .header[data-position='static'] {
     position: static;
   }
@@ -108,11 +103,11 @@
   }
 
   /* --- Transparency ---
-     "Transparent at top" only makes visual sense over a fixed or sticky header
-     floating above the first block; a static header has nothing beneath it to
-     show through. Declared for all three anyway — asking otherwise would mean
-     hiding the checkbox conditionally in the admin UI for little benefit, and
-     it is harmless where it has no effect. */
+     "Transparent at top" only makes visual sense over a fixed header floating
+     above the first block; a static header has nothing beneath it to show
+     through. Declared for both anyway — asking otherwise would mean hiding
+     the checkbox conditionally in the admin UI for little benefit, and it is
+     harmless where it has no effect. */
 
   .header[data-transparent='true'] {
     background-color: transparent;
@@ -168,8 +163,8 @@
 
      :has() is what makes this possible: <main> is a sibling of .header, not a
      descendant, so no custom property inherits across. These rules let the
-     page read the header's own chosen height. Sticky and static headers sit in
-     the document flow already and are deliberately excluded.
+     page read the header's own chosen height. Static headers sit in the
+     document flow already and are deliberately excluded.
 
      COUPLING: this targets the first block as `.ui-section:first-child` inside
      <main>. Current markup is main > div > section.ui-section. Changing that

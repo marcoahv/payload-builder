@@ -130,11 +130,10 @@ export const headerAppearanceField = (): Field[] => [
             admin: {
               width: '50%',
               description:
-                'Fixed floats over the page. Sticky scrolls away then returns. Static scrolls off.',
+                'Fixed stays in view while the page scrolls. Static scrolls away with the rest of the page.',
             },
             options: [
               { label: 'Fixed', value: 'fixed' },
-              { label: 'Sticky', value: 'sticky' },
               { label: 'Static', value: 'static' },
             ],
           },
@@ -142,7 +141,10 @@ export const headerAppearanceField = (): Field[] => [
             name: 'height',
             type: 'select',
             defaultValue: 'normal',
-            admin: { width: '50%' },
+            admin: {
+              width: '50%',
+              description: 'How tall the header bar is.',
+            },
             options: [
               { label: 'Compact', value: 'compact' },
               { label: 'Normal', value: 'normal' },

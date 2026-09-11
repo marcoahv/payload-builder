@@ -819,9 +819,12 @@ export interface Header {
    */
   width?: ('narrow' | 'default' | 'wide' | 'full') | null;
   /**
-   * Fixed floats over the page. Sticky scrolls away then returns. Static scrolls off.
+   * Fixed stays in view while the page scrolls. Static scrolls away with the rest of the page.
    */
-  position?: ('fixed' | 'sticky' | 'static') | null;
+  position?: ('fixed' | 'static') | null;
+  /**
+   * How tall the header bar is.
+   */
   height?: ('compact' | 'normal' | 'tall') | null;
   /**
    * Start transparent so the first block shows through, then fade to the surface on scroll. Pick a surface whose text colour reads against that block.
