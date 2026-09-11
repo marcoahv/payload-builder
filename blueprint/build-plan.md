@@ -123,3 +123,7 @@ cleaned-up checkbox version before generating the project overview.
   background on hover) alongside Primary/Outline; Primary and Outline use
   `--color-primary`/`--color-primary-light` fill+hover, Outline adds a
   `--color-primary-dark` border
+- [x] 13. **Site-wide image border radius control** - editor-controlled
+  Settings field (None/Small/Medium/Large/Extra Large) driving a
+  `--radius-image` token that cascades from `<html>` to every image
+  (Hero, FeatureGrid, blog Card, PostPreview, rich-text inline images)

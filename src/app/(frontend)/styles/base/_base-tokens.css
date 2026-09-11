@@ -69,9 +69,11 @@
 =============================================*/
 
 @theme static {
+  --radius-none: 0;
   --radius-sm: 0.4rem;
   --radius-md: 0.8rem;
   --radius-lg: 1.6rem;
+  --radius-xl: 2.4rem;
   --radius-pill: 999rem;
 }
 

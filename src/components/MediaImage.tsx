@@ -8,14 +8,19 @@ export type MediaImageProps = {
   className?: string
   imgClassName?: string
   priority?: boolean
-  /** Radius token to apply. `none` for full-bleed images. */
-  radius?: 'none' | 'sm' | 'md' | 'lg'
+  /**
+   * Radius token to apply. `site` (default) follows the editor-controlled
+   * sitewide setting (Settings -> Image Corner Radius); `none`/`sm`/`lg`
+   * are explicit overrides for a call site that deliberately wants to
+   * diverge from that setting.
+   */
+  radius?: 'none' | 'sm' | 'site' | 'lg'
 }
 
 const RADIUS = {
-  none: '',
+  none: 'rounded-[var(--radius-none)]',
   sm: 'rounded-[var(--radius-sm)]',
-  md: 'rounded-[var(--radius-md)]',
+  site: 'rounded-[var(--radius-image)]',
   lg: 'rounded-[var(--radius-lg)]',
 } as const
 
@@ -32,7 +37,7 @@ export function MediaImage({
   className,
   imgClassName,
   priority,
-  radius = 'md',
+  radius = 'site',
 }: MediaImageProps) {
   const resolved = getMediaSize(image, size)
   if (!resolved?.url) return null

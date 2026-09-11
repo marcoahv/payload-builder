@@ -86,7 +86,6 @@ export function Hero(props: HeroBlock) {
               image={image as Media}
               size="fullSize"
               className="flex-1"
-              radius="md"
               priority
             />
           )}

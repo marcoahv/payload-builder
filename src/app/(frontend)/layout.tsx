@@ -57,7 +57,11 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   // The .variable classes define --font-montserrat / --font-vollkorn /
   // --font-doto on <html>; the font-primary utility resolves against them.
   return (
-    <html lang="en" className={`${fontVariables} font-primary`}>
+    <html
+      lang="en"
+      className={`${fontVariables} font-primary`}
+      data-image-radius={settings.imageRadius ?? 'md'}
+    >
       {settings.gtmCode && <GoogleTagManager gtmId={settings.gtmCode} />}
       <body>
         <Header />

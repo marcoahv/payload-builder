@@ -882,6 +882,10 @@ export interface Setting {
   gtmCode?: string | null;
   siteName: string;
   siteDescription?: string | null;
+  /**
+   * Controls how rounded image corners are across the site.
+   */
+  imageRadius?: ('none' | 'sm' | 'md' | 'lg' | 'xl') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -960,6 +964,7 @@ export interface SettingsSelect<T extends boolean = true> {
   gtmCode?: T;
   siteName?: T;
   siteDescription?: T;
+  imageRadius?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

@@ -96,7 +96,7 @@
 
     img {
       height: auto;
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-image);
     }
 
     code {

@@ -36,7 +36,7 @@ export function FeatureGrid(props: FeatureGridBlock) {
               ) => (
                 <Stack key={feature.id ?? index} gap="sm">
                   {isDoc<Media>(feature.image) && (
-                    <MediaImage image={feature.image as Media} size="card" radius="md" />
+                    <MediaImage image={feature.image as Media} size="card" />
                   )}
                   <Heading level={3} size={5}>
                     {feature.title}

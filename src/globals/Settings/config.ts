@@ -27,5 +27,21 @@ export const Settings: GlobalConfig = {
       defaultValue:
         'A site built with the site builder.',
     },
+    {
+      name: 'imageRadius',
+      type: 'select',
+      label: 'Image Corner Radius',
+      defaultValue: 'md',
+      options: [
+        { label: 'None', value: 'none' },
+        { label: 'Small', value: 'sm' },
+        { label: 'Medium', value: 'md' },
+        { label: 'Large', value: 'lg' },
+        { label: 'Extra Large', value: 'xl' },
+      ],
+      admin: {
+        description: 'Controls how rounded image corners are across the site.',
+      },
+    },
   ],
 }

@@ -15,7 +15,10 @@
   .card {
     display: block;
     text-decoration: none;
-    border-radius: var(--radius-md);
+    /* Matches MediaImage's own radius, since overflow:hidden here is what
+       visually clips the image's top corners — if this drifted from
+       --radius-image, "None" would still show a rounded edge on cards. */
+    border-radius: var(--radius-image);
     overflow: hidden;
     background-color: var(--color-surface);
     color: var(--color-on-surface);

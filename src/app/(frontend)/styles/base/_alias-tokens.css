@@ -135,6 +135,37 @@
 }
 
 /*=============================================
+*             Image radius
+=============================================*/
+
+/* Site-wide, editor-controlled (Settings.imageRadius -> layout.tsx's
+   data-image-radius on <html>). Rooted at <html> rather than one
+   component, so the resulting custom property cascades to every image
+   regardless of nesting depth — the same field -> data-attribute -> CSS
+   pattern Header/Footer/Section use for their own data-surface, just
+   scoped to the whole page. */
+
+:root {
+  --radius-image: var(--radius-md);
+}
+
+html[data-image-radius='none'] {
+  --radius-image: var(--radius-none);
+}
+html[data-image-radius='sm'] {
+  --radius-image: var(--radius-sm);
+}
+html[data-image-radius='md'] {
+  --radius-image: var(--radius-md);
+}
+html[data-image-radius='lg'] {
+  --radius-image: var(--radius-lg);
+}
+html[data-image-radius='xl'] {
+  --radius-image: var(--radius-xl);
+}
+
+/*=============================================
 *                Shadows
 =============================================*/
 
