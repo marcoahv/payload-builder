@@ -876,12 +876,12 @@ export interface Header {
  */
 export interface Setting {
   id: string;
+  siteName: string;
+  siteDescription?: string | null;
   /**
    * Add your Google Tag Manager Code (GTM-XXXXXX)
    */
   gtmCode?: string | null;
-  siteName: string;
-  siteDescription?: string | null;
   /**
    * Controls how rounded image corners are across the site.
    */
@@ -961,9 +961,9 @@ export interface HeaderSelect<T extends boolean = true> {
  * via the `definition` "settings_select".
  */
 export interface SettingsSelect<T extends boolean = true> {
-  gtmCode?: T;
   siteName?: T;
   siteDescription?: T;
+  gtmCode?: T;
   imageRadius?: T;
   updatedAt?: T;
   createdAt?: T;

@@ -8,24 +8,31 @@ export const Settings: GlobalConfig = {
   },
   fields: [
     {
-      type: 'text',
-      name: 'gtmCode',
-      label: 'Google Tag Manager',
-      admin: {
-        description: 'Add your Google Tag Manager Code (GTM-XXXXXX)',
-      },
-    },
-    {
       name: 'siteName',
       type: 'text',
       required: true,
       defaultValue: 'Site Builder',
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'siteDescription',
       type: 'textarea',
       defaultValue:
         'A site built with the site builder.',
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
+      type: 'text',
+      name: 'gtmCode',
+      label: 'Google Tag Manager',
+      admin: {
+        position: 'sidebar',
+        description: 'Add your Google Tag Manager Code (GTM-XXXXXX)',
+      },
     },
     {
       name: 'imageRadius',
