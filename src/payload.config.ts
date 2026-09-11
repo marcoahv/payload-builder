@@ -42,17 +42,20 @@ export default buildConfig({
     },
     livePreview: {
       collections: ['pages', 'posts'],
+      globals: ['header'],
       breakpoints: [
         { label: 'Mobile', name: 'mobile', width: 375, height: 667 },
         { label: 'Tablet', name: 'tablet', width: 768, height: 1024 },
         { label: 'Desktop', name: 'desktop', width: 1440, height: 900 },
       ],
-      url: ({ data, collectionConfig }) => {
-        const path = livePreviewPath({
-          type: 'collection',
-          collectionSlug: collectionConfig?.slug ?? '',
-          docSlug: data?.slug,
-        })
+      url: ({ data, collectionConfig, globalConfig }) => {
+        const path = globalConfig
+          ? livePreviewPath({ type: 'global' })
+          : livePreviewPath({
+              type: 'collection',
+              collectionSlug: collectionConfig?.slug ?? '',
+              docSlug: data?.slug,
+            })
         return path ? `${getServerSideURL()}${path}` : undefined
       },
     },

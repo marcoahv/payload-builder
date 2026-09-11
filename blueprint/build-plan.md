@@ -134,3 +134,10 @@ cleaned-up checkbox version before generating the project overview.
   @payloadcms/live-preview-react) for Pages and Posts, so unsaved edits
   update instantly in an admin preview pane without requiring drafts or
   publishing
+- [x] 16. **Header live preview** - extend feature 15's client-side live
+  preview to the `Header` global (the fast-follow that feature 15
+  deliberately deferred), via a new slug-scoped live-preview hook so
+  Header's subscription — mounted on every page via the root layout —
+  doesn't corrupt or get corrupted by the existing Pages/Posts live-preview
+  hooks it now coexists with; Footer and Settings live preview stay a
+  separate future addition

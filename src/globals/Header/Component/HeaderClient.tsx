@@ -10,10 +10,19 @@ import { isDoc } from '@/utilities/isDoc'
 import { hrefForNavLink } from '@/utilities/navLink'
 import { Container } from '@/components/primitives'
 import { isThemeToggleEnabled } from '@/utilities/theme'
+import { getServerSideURL } from '@/utilities/getUrl'
+import { useScopedLivePreview } from '@/utilities/useScopedLivePreview'
 import { Logo } from './Logo'
 import { ThemeToggle } from './ThemeToggle'
 
-export function HeaderClient({ header }: { header: Header }) {
+export function HeaderClient({ initialHeader }: { initialHeader: Header }) {
+  const header = useScopedLivePreview<Header>({
+    target: { type: 'global', globalSlug: 'header' },
+    initialData: initialHeader,
+    serverURL: getServerSideURL(),
+    depth: 2,
+  })
+
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const navRef = useRef<HTMLElement>(null)

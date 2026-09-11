@@ -1,10 +1,10 @@
 'use client'
 
-import { useLivePreview } from '@payloadcms/live-preview-react'
 import { RichText } from '@/components/RichText'
 import { Section, Container, Heading, Stack } from '@/components/primitives'
 import { PostPreview } from '@/components/PostPreview'
 import { getServerSideURL } from '@/utilities/getUrl'
+import { useScopedLivePreview } from '@/utilities/useScopedLivePreview'
 import type { Post } from '@/payload-types'
 
 /**
@@ -15,7 +15,8 @@ import type { Post } from '@/payload-types'
  * live-update.
  */
 export function PostClient({ initialData }: { initialData: Post }) {
-  const { data } = useLivePreview<Post>({
+  const data = useScopedLivePreview<Post>({
+    target: { type: 'collection', collectionSlug: 'posts' },
     initialData,
     serverURL: getServerSideURL(),
     depth: 2,

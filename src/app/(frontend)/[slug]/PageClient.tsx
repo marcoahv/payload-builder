@@ -1,12 +1,13 @@
 'use client'
 
-import { useLivePreview } from '@payloadcms/live-preview-react'
 import { Blocks } from '@/blocks'
 import { getServerSideURL } from '@/utilities/getUrl'
+import { useScopedLivePreview } from '@/utilities/useScopedLivePreview'
 import type { Page as PageType } from '@/payload-types'
 
 export function PageClient({ initialData }: { initialData: PageType }) {
-  const { data } = useLivePreview<PageType>({
+  const data = useScopedLivePreview<PageType>({
+    target: { type: 'collection', collectionSlug: 'pages' },
     initialData,
     serverURL: getServerSideURL(),
     depth: 2,

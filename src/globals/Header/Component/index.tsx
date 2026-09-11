@@ -13,5 +13,5 @@ export async function Header() {
 
   if (!header) return null
 
-  return <HeaderClient header={header} />
+  return <HeaderClient initialHeader={header} />
 }
