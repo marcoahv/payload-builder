@@ -4,13 +4,13 @@ import config from '@/payload.config'
 import { Media } from '@/payload-types'
 import { isDoc } from '@/utilities/isDoc'
 import { notFound } from 'next/navigation'
-import { Blocks } from '@/blocks'
 import { Metadata } from 'next'
 import { generateMeta } from '@/utilities/generateMeta'
 import { unstable_cache } from 'next/cache'
 import { Page as PageType } from '@/payload-types'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import { getPayloadClient } from '@/utilities/getPayloadClient'
+import { PageClient } from './PageClient'
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -65,11 +65,7 @@ export default async function Page({ params }: PageProps) {
     return notFound()
   }
 
-  return (
-    <div>
-      <Blocks blocks={page.blocks} />
-    </div>
-  )
+  return <PageClient initialData={page} />
 }
 
 /**

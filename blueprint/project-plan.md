@@ -71,6 +71,9 @@ lands.
 - Optional Resend email adapter, activates only when its env vars are set
 - Vitest (`tests/int/**/*.int.spec.ts`) and Playwright configured for testing;
   no test files exist yet
+- `@payloadcms/live-preview-react` - client-side live preview for Pages and
+  Posts; unsaved editor changes merge into the rendered page via
+  `postMessage`, no drafts/versions required
 
 ## 6. Monetize - How will this make money?
 
@@ -95,6 +98,11 @@ content editors pick semantic roles rather than colors or pixel values.
 A manual dark mode toggle is now planned (build plan item 14): a visitor-facing
 control that overrides the OS `prefers-color-scheme` default and persists the
 chosen mode across visits.
+
+Editors also get a live-updating preview pane (build plan item 15): editing a
+Page or Post in the admin panel shows unsaved changes rendered instantly, no
+save required. Header/Footer/Settings live preview is a deliberate later
+addition, not part of this pass.
 
 The next planned UI/UX work, after the Phase 7 port, is making the token
 system **portable across different project stacks**, not just this one.

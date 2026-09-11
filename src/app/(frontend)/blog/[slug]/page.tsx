@@ -5,14 +5,7 @@ import { isDoc } from '@/utilities/isDoc'
 import type { Category, Post } from '@/payload-types'
 import { Card } from '@/components/Card'
 import { CardContainer } from '@/components/CardContainer'
-import { RichText } from '@/components/RichText'
-import {
-  Section,
-  Container,
-  Heading,
-  Stack,
-} from '@/components/primitives'
-import { PostPreview } from '@/components/PostPreview'
+import { Section, Container, Heading } from '@/components/primitives'
 import { PostNavigation } from '@/components/PostNavigation'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { Metadata } from 'next'
@@ -20,6 +13,7 @@ import { generateArticleMeta } from '@/utilities/generateArticleMeta'
 import { unstable_cache } from 'next/cache'
 import { getPayloadClient } from '@/utilities/getPayloadClient'
 import { getCachedGlobal } from '@/utilities/getGlobals'
+import { PostClient } from './PostClient'
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -68,26 +62,7 @@ export default async function Page({ params }: PageProps) {
   return (
     <>
       <Breadcrumbs items={breadcrumbs} />
-      <Section surface={post.headerAppearance?.surface} spacing={post.headerAppearance?.spacing}>
-        <Container width={post.headerAppearance?.width}>
-          <Stack gap="lg">
-            <Heading level={1}>{post.title}</Heading>
-            <PostPreview
-              post={post}
-              variant="header"
-              showLink={false}
-              imageSize="fullSize"
-            />
-          </Stack>
-        </Container>
-      </Section>
-      <Section surface={post.bodyAppearance?.surface} spacing={post.bodyAppearance?.spacing}>
-        <Container width={post.bodyAppearance?.width}>
-          <div className="ui-prose">
-            <RichText data={post.body} />
-          </div>
-        </Container>
-      </Section>
+      <PostClient initialData={post} />
       <PostNavigation prevPost={prevPost} nextPost={nextPost} />
       {relatedPosts.docs.length > 0 && (
         <Section surface="muted">

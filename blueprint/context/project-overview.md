@@ -1,6 +1,6 @@
 # Site Builder - Project Overview
 
-<!-- blueprint:source-hash 7c6eaf989e848575edcf33af4a38f17439992bb68728b51568301bdf5b95ca1c -->
+<!-- blueprint:source-hash 12bb3bc5c304fcdf740e011754bd39e7ba0ccbdf6e05b6c52012a14aaf237dc7 -->
 
 > A reusable Payload CMS + Next.js template, kept as a template repository and
 > cloned fresh for each new site, rather than shipped as one specific product.
@@ -64,9 +64,16 @@ the two roles above.
 13. **Site-wide image border radius control** (shipped) - editor-controlled
     Settings field (None/Small/Medium/Large/Extra Large) driving a
     `--radius-image` token across every image.
-14. **Dark mode toggle** (next) - a visitor-facing manual light/dark override
-    (toggle control, e.g. in the header) that persists the chosen mode across
-    visits and takes precedence over the OS `prefers-color-scheme` default.
+14. **Dark mode toggle** (shipped) - a visitor-facing manual light/dark
+    override (toggle control in the header) that persists the chosen mode
+    across visits and takes precedence over the OS `prefers-color-scheme`
+    default; an editor-controlled `Header.showThemeToggle` switch can hide
+    the control per site.
+15. **Live preview** (next) - client-side live preview (via
+    `@payloadcms/live-preview-react`) for Pages and Posts, so unsaved editor
+    changes render instantly in an admin preview pane with no save or
+    drafts/versions required. Header/Footer/Settings live preview is a
+    deliberate later addition.
 
 ## Data model
 
@@ -115,8 +122,9 @@ the two roles above.
 
 ### Header (global, `header`)
 
-- Appearance: `surface`, `width`, `position` (fixed/sticky/static), `height`
-  (compact/normal/tall), `transparentAtTop` (checkbox)
+- Appearance: `surface`, `width`, `position` (fixed/static), `height`
+  (compact/normal/tall), `transparentAtTop` (checkbox), `showThemeToggle`
+  (checkbox, default true - hides the dark mode toggle control when off)
 - `logo`, `logoDark`, `icon`, `iconDark` (uploads -> Media; dark variants
   optional, fall back to the main asset)
 - `navLinks` (array, 1-6) - `link` (relationship -> Pages, required),
@@ -163,6 +171,9 @@ Every block shares an `appearanceField()` (surface, spacing, width) plus:
   storage when unset
 - **Resend** (optional, env-gated) - transactional email
 - **Vitest** + **Playwright** - configured, no test files written yet
+- **`@payloadcms/live-preview-react`** - client-side live preview for Pages
+  and Posts; merges unsaved editor changes into the rendered page via
+  `postMessage`, no drafts/versions required
 
 ## Monetization
 
@@ -176,10 +187,9 @@ only semantic roles, never raw palette values), light/dark via `light-dark()`
 as the OS-driven default, and editor-controlled appearance so content editors
 pick semantic roles rather than colors or pixel values.
 
-The Phase 7 legacy port and the portable branding token system (features
-10-11 above) have both shipped. Next up (feature 14): a manual dark mode
-toggle for visitors - a control that overrides the OS default and persists
-the chosen mode across visits.
+The Phase 7 legacy port, the portable branding token system, and the manual
+dark mode toggle (features 10-14 above) have all shipped. Next up (feature
+15): a live-updating preview pane for editors on Pages and Posts.
 
 - `/` and `/[slug]` - block-rendered pages (frontend)
 - `/blog` and `/blog/[slug]` - blog listing and detail pages

@@ -130,3 +130,7 @@ cleaned-up checkbox version before generating the project overview.
 - [x] 14. **Dark mode toggle** - manual light/dark override (toggle control,
   e.g. in the header) that persists the visitor's choice across visits and
   takes precedence over the OS `prefers-color-scheme` default
+- [x] 15. **Live preview** - client-side live preview (via
+  @payloadcms/live-preview-react) for Pages and Posts, so unsaved edits
+  update instantly in an admin preview pane without requiring drafts or
+  publishing
