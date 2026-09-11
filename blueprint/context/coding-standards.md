@@ -94,8 +94,12 @@
 - `_base-tokens.css`'s Breakpoints section is pure device-viewport mechanics,
   not a personality-tunable value - kept there anyway so every raw literal
   in the styles system lives in one file
-- Theming is `light-dark()`-based (no `.dark` class, no JS toggle); driven by
-  `color-scheme` in `base/_reset.css`
+- Theming is `light-dark()`-based, driven by `color-scheme` in
+  `base/_reset.css`: `light dark` (OS-driven) by default, with a
+  visitor-set `data-theme` attribute on `<html>` (via
+  `src/utilities/theme.ts` + `globals/Header/Component/ThemeToggle.tsx`)
+  forcing an explicit `color-scheme` when present - see that file's Dark
+  mode section
 - Editors pick semantic roles (`surface`, `spacing`, `width`), never raw
   colors or pixel values - see `src/fields/appearance.ts`; a new block should
   reuse `appearanceField()` rather than inventing new raw style controls

@@ -5,6 +5,17 @@
     color-scheme: light dark;
   }
 
+  /* Visitor override (see layout.tsx's beforeInteractive theme-init script
+     and globals/Header/Component/ThemeToggle.tsx). Higher specificity than
+     the :root rule above, so it wins over the OS default the moment
+     data-theme is set, without touching any light-dark() call itself. */
+  html[data-theme='light'] {
+    color-scheme: light;
+  }
+  html[data-theme='dark'] {
+    color-scheme: dark;
+  }
+
   *,
   *::after,
   *::before,

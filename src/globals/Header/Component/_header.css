@@ -63,6 +63,25 @@
     }
   }
 
+  /* Manual override mirror of the two OS-media blocks above (see
+     _reset.css and ThemeToggle.tsx). The added html[data-theme] attribute
+     selector outranks the plain class selectors inside the media queries,
+     so these win whenever a visitor has set an explicit theme, regardless
+     of the real OS setting. */
+  html[data-theme='dark'] .header[data-surface='default'] .ui-logo__img--logo {
+    display: none;
+  }
+  html[data-theme='dark'] .header[data-surface='default'] .ui-logo__img--logo-dark {
+    display: block;
+  }
+
+  html[data-theme='light'] .header[data-surface='inverse'] .ui-logo__img--logo {
+    display: none;
+  }
+  html[data-theme='light'] .header[data-surface='inverse'] .ui-logo__img--logo-dark {
+    display: block;
+  }
+
   /* --- Position --- */
 
   .header[data-position='fixed'] {
@@ -262,6 +281,60 @@
     }
   }
 
+  /* Manual override mirror of the two OS-media blocks above, same reasoning
+     as the logo-swap mirror near the top of this file: the html[data-theme]
+     ancestor selector outranks the plain body:has(...) selectors inside the
+     media queries. */
+  html[data-theme='light']
+    body:has(main .ui-section:first-child[data-surface='default'])
+    .header[data-transparent='true']:not(.header--scrolled)
+    .ui-logo__img--logo {
+    display: block;
+  }
+  html[data-theme='light']
+    body:has(main .ui-section:first-child[data-surface='default'])
+    .header[data-transparent='true']:not(.header--scrolled)
+    .ui-logo__img--logo-dark {
+    display: none;
+  }
+  html[data-theme='light']
+    body:has(main .ui-section:first-child[data-surface='inverse'])
+    .header[data-transparent='true']:not(.header--scrolled)
+    .ui-logo__img--logo {
+    display: none;
+  }
+  html[data-theme='light']
+    body:has(main .ui-section:first-child[data-surface='inverse'])
+    .header[data-transparent='true']:not(.header--scrolled)
+    .ui-logo__img--logo-dark {
+    display: block;
+  }
+
+  html[data-theme='dark']
+    body:has(main .ui-section:first-child[data-surface='default'])
+    .header[data-transparent='true']:not(.header--scrolled)
+    .ui-logo__img--logo {
+    display: none;
+  }
+  html[data-theme='dark']
+    body:has(main .ui-section:first-child[data-surface='default'])
+    .header[data-transparent='true']:not(.header--scrolled)
+    .ui-logo__img--logo-dark {
+    display: block;
+  }
+  html[data-theme='dark']
+    body:has(main .ui-section:first-child[data-surface='inverse'])
+    .header[data-transparent='true']:not(.header--scrolled)
+    .ui-logo__img--logo {
+    display: block;
+  }
+  html[data-theme='dark']
+    body:has(main .ui-section:first-child[data-surface='inverse'])
+    .header[data-transparent='true']:not(.header--scrolled)
+    .ui-logo__img--logo-dark {
+    display: none;
+  }
+
   body:has(main .ui-section:first-child[data-surface='muted'])
     .header[data-transparent='true']:not(.header--scrolled)
     .ui-logo__img--logo,
@@ -283,6 +356,37 @@
   .header__logo {
     display: flex;
     align-items: center;
+  }
+
+  /* Groups the theme toggle with the hamburger/nav so .header__bar's
+     space-between puts the logo on one side and everything else on the
+     other, instead of spreading three separate flex children across the
+     whole bar (see HeaderClient.tsx). */
+  .header__controls {
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+  }
+
+  /* Theme toggle — visible at every breakpoint, unlike the hamburger below. */
+  .header__theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+
+    background: none;
+    border: none;
+    padding: 0.8rem;
+    cursor: pointer;
+    color: inherit;
+
+    transition: color 0.3s ease 0s;
+
+    &:hover {
+      color: var(--color-action);
+    }
   }
 
   /* Hamburger — mobile only. */

@@ -9,7 +9,9 @@ import type { Header, Media } from '@/payload-types'
 import { isDoc } from '@/utilities/isDoc'
 import { hrefForNavLink } from '@/utilities/navLink'
 import { Container } from '@/components/primitives'
+import { isThemeToggleEnabled } from '@/utilities/theme'
 import { Logo } from './Logo'
+import { ThemeToggle } from './ThemeToggle'
 
 export function HeaderClient({ header }: { header: Header }) {
   const [open, setOpen] = useState(false)
@@ -31,6 +33,7 @@ export function HeaderClient({ header }: { header: Header }) {
     position,
     height,
     transparentAtTop,
+    showThemeToggle,
   } = header
 
   // Close the drawer on navigation. Without this it survives a route change
@@ -105,105 +108,122 @@ export function HeaderClient({ header }: { header: Header }) {
     >
       <Container width={width}>
         <div className="header__bar">
-          <Logo logo={logo} logoDark={logoDark} className="header__logo" />
+          <Logo
+            logo={logo}
+            logoDark={logoDark}
+            className="header__logo"
+          />
 
-          <button
-            className="header__toggle"
-            onClick={() => setOpen((v) => !v)}
-            aria-label={open ? 'Close menu' : 'Open menu'}
-            aria-expanded={open}
-            aria-controls="header-nav"
-          >
-            {open ? (
-              <X size={28} aria-hidden />
-            ) : (
-              <Menu size={28} aria-hidden />
-            )}
-          </button>
+          {/* Groups the theme toggle, hamburger, and nav so justify-content:
+              space-between on .header__bar puts the logo on one side and
+              everything else on the other, rather than spreading three
+              separate flex children across the whole bar. */}
+          <div className="header__controls">
+            {isThemeToggleEnabled(showThemeToggle) && <ThemeToggle />}
 
-          {/* Rendered once. CSS reshapes it into a drawer below atMedium and an
-              inline row above — see ./_header.css. */}
-          <nav
-            id="header-nav"
-            ref={navRef}
-            className={`header__nav ${open ? 'header__nav--open' : ''}`}
-            aria-label="Main navigation"
-          >
-            {navLinks && navLinks.length > 0 && (
-              <ul className="header__links">
-                {navLinks.map((item) => {
-                  const href = hrefForNavLink(item)
-                  if (!href) return null
-                  return (
+            <button
+              className="header__toggle"
+              onClick={() => setOpen((v) => !v)}
+              aria-label={open ? 'Close menu' : 'Open menu'}
+              aria-expanded={open}
+              aria-controls="header-nav"
+            >
+              {open ? (
+                <X size={28} aria-hidden />
+              ) : (
+                <Menu size={28} aria-hidden />
+              )}
+            </button>
+
+            {/* Rendered once. CSS reshapes it into a drawer below atMedium and an
+                inline row above — see ./_header.css. */}
+            <nav
+              id="header-nav"
+              ref={navRef}
+              className={`header__nav ${open ? 'header__nav--open' : ''}`}
+              aria-label="Main navigation"
+            >
+              {navLinks && navLinks.length > 0 && (
+                <ul className="header__links">
+                  {navLinks.map((item) => {
+                    const href = hrefForNavLink(item)
+                    if (!href) return null
+                    return (
+                      <li key={item.id}>
+                        <Link
+                          className="ui-link"
+                          href={href}
+                          target={item.newTab ? '_blank' : undefined}
+                          rel={
+                            item.newTab
+                              ? 'noopener noreferrer'
+                              : undefined
+                          }
+                          onClick={close}
+                        >
+                          {item.label}
+                        </Link>
+                      </li>
+                    )
+                  })}
+                </ul>
+              )}
+
+              {socialLinks && socialLinks.length > 0 && (
+                <ul className="header__social">
+                  {socialLinks.map((item) => (
                     <li key={item.id}>
                       <Link
                         className="ui-link"
-                        href={href}
-                        target={item.newTab ? '_blank' : undefined}
-                        rel={
-                          item.newTab
-                            ? 'noopener noreferrer'
-                            : undefined
-                        }
+                        href={item.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={item.platform}
+                        onClick={close}
+                      >
+                        {isDoc<Media>(item.icon) && item.icon.url && (
+                          <Image
+                            src={item.icon.url}
+                            alt=""
+                            width={24}
+                            height={24}
+                            aria-hidden
+                          />
+                        )}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              {ctaButtons && ctaButtons.length > 0 && (
+                <ul className="header__actions">
+                  {ctaButtons.map((item) => (
+                    <li key={item.id}>
+                      <Link
+                        href={item.url}
+                        className={[
+                          'ui-btn',
+                          {
+                            outline: 'ui-btn-outline',
+                            ghost: 'ui-btn-ghost',
+                          }[item.variant ?? ''],
+                          item.color === 'secondary'
+                            ? 'ui-btn-secondary'
+                            : '',
+                        ]
+                          .filter(Boolean)
+                          .join(' ')}
                         onClick={close}
                       >
                         {item.label}
                       </Link>
                     </li>
-                  )
-                })}
-              </ul>
-            )}
-
-            {socialLinks && socialLinks.length > 0 && (
-              <ul className="header__social">
-                {socialLinks.map((item) => (
-                  <li key={item.id}>
-                    <Link
-                      className="ui-link"
-                      href={item.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={item.platform}
-                      onClick={close}
-                    >
-                      {isDoc<Media>(item.icon) && item.icon.url && (
-                        <Image
-                          src={item.icon.url}
-                          alt=""
-                          width={24}
-                          height={24}
-                          aria-hidden
-                        />
-                      )}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            )}
-
-            {ctaButtons && ctaButtons.length > 0 && (
-              <ul className="header__actions">
-                {ctaButtons.map((item) => (
-                  <li key={item.id}>
-                    <Link
-                      href={item.url}
-                      className={[
-                        'ui-btn',
-                        { outline: 'ui-btn-outline', ghost: 'ui-btn-ghost' }[item.variant ?? ''],
-                        item.color === 'secondary' ? 'ui-btn-secondary' : '',
-                      ]
-                        .filter(Boolean)
-                        .join(' ')}
-                      onClick={close}
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </nav>
+                  ))}
+                </ul>
+              )}
+            </nav>
+          </div>
 
           <div
             className={`header__scrim ${open ? 'header__scrim--visible' : ''}`}

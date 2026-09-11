@@ -60,8 +60,10 @@ lands.
 - Lexical rich text editor, with a `BlocksFeature` so blocks can be embedded
   inside post bodies
 - Tailwind CSS v4, CSS-first `@theme` config with a two-tier token system
-  (primitive palette + semantic roles) and `light-dark()` theming, no `.dark`
-  class or JS toggle
+  (primitive palette + semantic roles) and `light-dark()` theming as the
+  OS-driven default, with a manual override (`.dark`/`.light` class or
+  `data-theme` attribute + persisted visitor preference) taking precedence
+  when set
 - `@payloadcms/plugin-seo` for per-document SEO fields
 - Optional S3-compatible storage (`@payloadcms/storage-s3`), activates only
   when bucket/credential env vars are set; falls back to local storage
@@ -89,6 +91,10 @@ Design intent already encoded in the tokens: brand-swappable (components
 reference only semantic roles, never raw palette values), light/dark via
 `light-dark()`, and editor-controlled appearance (surface, spacing, width) so
 content editors pick semantic roles rather than colors or pixel values.
+
+A manual dark mode toggle is now planned (build plan item 14): a visitor-facing
+control that overrides the OS `prefers-color-scheme` default and persists the
+chosen mode across visits.
 
 The next planned UI/UX work, after the Phase 7 port, is making the token
 system **portable across different project stacks**, not just this one.

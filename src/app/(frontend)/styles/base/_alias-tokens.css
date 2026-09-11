@@ -19,7 +19,9 @@
       up unreadable on its own background.
 
    light-dark() supplies both themes in one declaration, driven by the
-   `color-scheme` set in base/_reset.css. No .dark class, no JS, no flash. */
+   `color-scheme` set in base/_reset.css: OS-driven by default, or a visitor's
+   explicit choice via the data-theme attribute (see _reset.css and
+   globals/Header/Component/ThemeToggle.tsx). No flash either way. */
 
 @theme static {
   /* --- Surfaces, each with its matching foreground --- */

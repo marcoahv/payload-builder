@@ -160,6 +160,15 @@ export const headerAppearanceField = (): Field[] => [
             'Start transparent so the first block shows through, then fade to the surface on scroll. Pick a surface whose text colour reads against that block.',
         },
       },
+      {
+        name: 'showThemeToggle',
+        type: 'checkbox',
+        defaultValue: true,
+        admin: {
+          description:
+            "Let visitors manually switch between light and dark mode from the header. When off, the site still follows each visitor's device setting automatically.",
+        },
+      },
     ],
   },
 ]

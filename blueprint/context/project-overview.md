@@ -1,6 +1,6 @@
 # Site Builder - Project Overview
 
-<!-- blueprint:source-hash f57c7e094dc542140f2c4fec5fb30f208c67fb8b00230afc53486dd930565743 -->
+<!-- blueprint:source-hash 7c6eaf989e848575edcf33af4a38f17439992bb68728b51568301bdf5b95ca1c -->
 
 > A reusable Payload CMS + Next.js template, kept as a template repository and
 > cloned fresh for each new site, rather than shipped as one specific product.
@@ -46,10 +46,12 @@ the two roles above.
 8. **Cache-tagged rendering** (shipped) - page/global reads cached and
    revalidated on change so admin edits appear without a stale cache.
 9. **Admin auth** (shipped) - `Users` collection gates write access.
-10. **Phase 7 legacy port** (next) - migrate the CSS-Modules components and
-    blog routes quarantined in `src/_legacy/` onto the primitive components
-    and semantic token system, then delete `src/_legacy`.
-11. **Portable branding token system** (next) - consolidate design tokens
+10. **Phase 7 legacy port** (shipped) - migrated the CSS-Modules components and
+    blog routes quarantined in `src/_legacy/` (`Footer`, blog listing/detail
+    pages, `Pagination`, `PostPreview`, `Breadcrumbs`, `PostNavigation`,
+    `Card`, `CategoryFilter`) onto the primitive components and semantic token
+    system.
+11. **Portable branding token system** (shipped) - consolidated design tokens
     (colors, typography, spacing, shadows, border-radius) into a single
     portable `branding.css` usable across different project stacks, plus a
     personality-selection guide based on the Website-Personalities-Framework
@@ -57,6 +59,14 @@ the two roles above.
     Minimalist/Simple, Plain/Neutral, Bold/Confident, Calm/Peaceful,
     Startup/Upbeat, Playful/Fun - each applied across 7 design ingredients,
     with a trait-injection technique for blending neighboring personalities).
+12. **Button color variants** (shipped) - added a Ghost button (no fill/border,
+    background on hover) alongside Primary/Outline.
+13. **Site-wide image border radius control** (shipped) - editor-controlled
+    Settings field (None/Small/Medium/Large/Extra Large) driving a
+    `--radius-image` token across every image.
+14. **Dark mode toggle** (next) - a visitor-facing manual light/dark override
+    (toggle control, e.g. in the header) that persists the chosen mode across
+    visits and takes precedence over the OS `prefers-color-scheme` default.
 
 ## Data model
 
@@ -145,7 +155,9 @@ Every block shares an `appearanceField()` (surface, spacing, width) plus:
 - **Lexical** - rich text editor, with `BlocksFeature` so blocks embed inside
   post bodies
 - **Tailwind CSS v4** - CSS-first `@theme` tokens; two-tier system (palette +
-  semantic roles), `light-dark()` theming, no `.dark` class or JS toggle
+  semantic roles); `light-dark()` theming as the OS-driven default, with a
+  manual override (`.dark`/`.light` class or `data-theme` attribute plus a
+  persisted visitor preference) taking precedence when set
 - **`@payloadcms/plugin-seo`** - per-document SEO fields
 - **S3-compatible storage** (optional, env-gated) - falls back to local
   storage when unset
@@ -159,20 +171,18 @@ be distributed or sold; it exists to bootstrap the author's own future sites.
 
 ## UI/UX
 
-Mid-migration from CSS Modules to the Tailwind v4 token system. Design intent
-already encoded in the tokens: brand-swappable (components reference only
-semantic roles, never raw palette values), light/dark via `light-dark()`, and
-editor-controlled appearance so content editors pick semantic roles rather
-than colors or pixel values.
+Design intent encoded in the tokens: brand-swappable (components reference
+only semantic roles, never raw palette values), light/dark via `light-dark()`
+as the OS-driven default, and editor-controlled appearance so content editors
+pick semantic roles rather than colors or pixel values.
 
-Two ordered UI/UX items are next (features 10-11 above): finish the Phase 7
-port of `src/_legacy/` (`Pagination`, `PostPreview`, `Breadcrumbs`,
-`PostNavigation`, `Card`, `CategoryFilter`, `Footer`, blog routes), then make
-the token system portable across project stacks via a consolidated
-`branding.css` and a Website-Personalities-Framework guide. New product
-features are on hold until both land.
+The Phase 7 legacy port and the portable branding token system (features
+10-11 above) have both shipped. Next up (feature 14): a manual dark mode
+toggle for visitors - a control that overrides the OS default and persists
+the chosen mode across visits.
 
 - `/` and `/[slug]` - block-rendered pages (frontend)
+- `/blog` and `/blog/[slug]` - blog listing and detail pages
 - `/admin` - Payload admin panel
 
 ## Deployment
@@ -189,3 +199,4 @@ identity); `S3_API`/`S3_BUCKET`/`S3_ACCESS_KEY_ID`/`S3_SECRET_ACCESS_KEY`/
 
 > TODO: deploy target, build/start commands for that target, health check
 > path, and domain notes all depend on the target chosen per site.
+</content>

@@ -827,6 +827,10 @@ export interface Header {
    * Start transparent so the first block shows through, then fade to the surface on scroll. Pick a surface whose text colour reads against that block.
    */
   transparentAtTop?: boolean | null;
+  /**
+   * Let visitors manually switch between light and dark mode from the header. When off, the site still follows each visitor's device setting automatically.
+   */
+  showThemeToggle?: boolean | null;
   logo: string | Media;
   /**
    * Optional. Shown wherever the header background is dark — for a Default surface that’s the visitor’s dark colour scheme, but for an Inverse surface it’s the opposite (light colour scheme). Falls back to the main logo.
@@ -921,6 +925,7 @@ export interface HeaderSelect<T extends boolean = true> {
   position?: T;
   height?: T;
   transparentAtTop?: T;
+  showThemeToggle?: T;
   logo?: T;
   logoDark?: T;
   icon?: T;

@@ -102,7 +102,9 @@ Plain `@theme` tree-shakes tokens nothing references in source. These tokens are
 
 ### Dark mode
 
-`light-dark()` in the semantic tier, driven by `color-scheme: light dark` in `base/_reset.css`. No `.dark` class, no JavaScript, no flash. Next's Lightning CSS downlevels it to a `prefers-color-scheme` toggle for older browsers automatically.
+`light-dark()` in the semantic tier, driven by `color-scheme: light dark` in `base/_reset.css`. No flash: OS-driven by default. Next's Lightning CSS downlevels it to a `prefers-color-scheme` toggle for older browsers automatically.
+
+Visitors can also override the OS default. `base/_reset.css` adds `html[data-theme='light']`/`html[data-theme='dark']` rules that force `color-scheme` explicitly, outranking the `:root` default by specificity. `layout.tsx` renders a `beforeInteractive` inline script (see `src/utilities/theme.ts`) that reads the stored preference from `localStorage` and sets `data-theme` on `<html>` before hydration, so there's still no flash even with a manual choice in effect. `globals/Header/Component/ThemeToggle.tsx` is the control that writes that preference. The four `@media (prefers-color-scheme: ...)` blocks in `globals/Header/Component/_header.css` (logo swap, transparent-header surface adoption) have `html[data-theme=...]` mirrors for the same reason - anything keyed off the raw media query needs an explicit-override counterpart, since `color-scheme` alone does not affect `@media (prefers-color-scheme)` evaluation.
 
 Set the light value first, dark second: `light-dark(var(--color-neutral-0), var(--color-neutral-950))`. Both arguments are always palette references — never an inline literal, even for a dark-mode-only shade with no light-mode counterpart; give it its own named palette step in `_base-tokens.css` instead.
 

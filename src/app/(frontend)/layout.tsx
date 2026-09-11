@@ -2,11 +2,13 @@ import React from 'react'
 import './styles/index.css'
 import { GoogleTagManager } from '@next/third-parties/google'
 import { Metadata } from 'next'
+import Script from 'next/script'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import { Header } from '@/globals/Header/Component'
 import { Footer } from '@/globals/Footer/Component'
 import { isDoc } from '@/utilities/isDoc'
 import type { Media } from '@/payload-types'
+import { themeInitScript } from '@/utilities/theme'
 import { fontVariables } from './fonts'
 
 const FALLBACK_NAME = 'Site Builder'
@@ -61,9 +63,19 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
       lang="en"
       className={`${fontVariables} font-primary`}
       data-image-radius={settings.imageRadius ?? 'md'}
+      // The theme-init script below sets data-theme on this element before
+      // hydration runs, so React sees an attribute the server render didn't
+      // produce. That is intentional (it's what avoids a flash of the wrong
+      // theme), so the mismatch warning is suppressed rather than fixed.
+      suppressHydrationWarning
     >
       {settings.gtmCode && <GoogleTagManager gtmId={settings.gtmCode} />}
       <body>
+        <Script
+          id="theme-init"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: themeInitScript() }}
+        />
         <Header />
         {/* No offset class here on purpose: whether <main> needs one — and how
             much — depends on the header's own position and height, both

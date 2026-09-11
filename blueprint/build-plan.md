@@ -127,3 +127,6 @@ cleaned-up checkbox version before generating the project overview.
   Settings field (None/Small/Medium/Large/Extra Large) driving a
   `--radius-image` token that cascades from `<html>` to every image
   (Hero, FeatureGrid, blog Card, PostPreview, rich-text inline images)
+- [x] 14. **Dark mode toggle** - manual light/dark override (toggle control,
+  e.g. in the header) that persists the visitor's choice across visits and
+  takes precedence over the OS `prefers-color-scheme` default
