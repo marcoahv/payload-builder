@@ -28,27 +28,6 @@ export const Header: GlobalConfig = {
       },
     },
     {
-      name: 'icon',
-      label: 'Site Icon',
-      type: 'upload',
-      relationTo: 'media',
-      required: true,
-      admin: {
-        description:
-          "The small mark used as the browser tab favicon — distinct from the logo above. Usually square, e.g. 32×32 or 64×64.",
-      },
-    },
-    {
-      name: 'iconDark',
-      label: 'Site Icon (dark mode)',
-      type: 'upload',
-      relationTo: 'media',
-      admin: {
-        description:
-          "Optional. Shown when the visitor's browser prefers a dark colour scheme. Falls back to the main icon.",
-      },
-    },
-    {
       name: 'navLinks',
       label: 'Nav Links',
       type: 'array',

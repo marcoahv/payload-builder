@@ -839,14 +839,6 @@ export interface Header {
    * Optional. Shown wherever the header background is dark — for a Default surface that’s the visitor’s dark colour scheme, but for an Inverse surface it’s the opposite (light colour scheme). Falls back to the main logo.
    */
   logoDark?: (string | null) | Media;
-  /**
-   * The small mark used as the browser tab favicon — distinct from the logo above. Usually square, e.g. 32×32 or 64×64.
-   */
-  icon: string | Media;
-  /**
-   * Optional. Shown when the visitor's browser prefers a dark colour scheme. Falls back to the main icon.
-   */
-  iconDark?: (string | null) | Media;
   navLinks?:
     | {
         label: string;
@@ -893,6 +885,14 @@ export interface Setting {
    * Controls how rounded image corners are across the site.
    */
   imageRadius?: ('none' | 'sm' | 'md' | 'lg' | 'xl') | null;
+  /**
+   * The small mark used as the browser tab favicon. Usually square, e.g. 32×32 or 64×64.
+   */
+  icon: string | Media;
+  /**
+   * Optional. Shown when the visitor's browser prefers a dark colour scheme. Falls back to the main icon.
+   */
+  iconDark?: (string | null) | Media;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -931,8 +931,6 @@ export interface HeaderSelect<T extends boolean = true> {
   showThemeToggle?: T;
   logo?: T;
   logoDark?: T;
-  icon?: T;
-  iconDark?: T;
   navLinks?:
     | T
     | {
@@ -973,6 +971,8 @@ export interface SettingsSelect<T extends boolean = true> {
   siteDescription?: T;
   gtmCode?: T;
   imageRadius?: T;
+  icon?: T;
+  iconDark?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

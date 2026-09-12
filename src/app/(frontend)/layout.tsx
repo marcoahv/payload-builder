@@ -26,18 +26,15 @@ function iconDescriptor(icon: string | Media | null | undefined, media?: string)
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  // depth 1 so header.icon / header.iconDark resolve to full Media docs
+  // depth 1 so settings.icon / settings.iconDark resolve to full Media docs
   // rather than bare relationship ids.
-  const [settings, header] = await Promise.all([
-    getCachedGlobal('settings')(),
-    getCachedGlobal('header', 1)(),
-  ])
+  const settings = await getCachedGlobal('settings', 1)()
 
   // Light entry carries no media query, so it also covers dark mode when no
   // dark-mode icon was uploaded — there is nothing to override it with.
   const icons = [
-    iconDescriptor(header?.icon),
-    iconDescriptor(header?.iconDark, '(prefers-color-scheme: dark)'),
+    iconDescriptor(settings.icon),
+    iconDescriptor(settings.iconDark, '(prefers-color-scheme: dark)'),
   ].filter((icon): icon is NonNullable<typeof icon> => icon !== null)
 
   return {

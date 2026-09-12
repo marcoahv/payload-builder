@@ -50,5 +50,27 @@ export const Settings: GlobalConfig = {
         description: 'Controls how rounded image corners are across the site.',
       },
     },
+    {
+      name: 'icon',
+      label: 'Site Icon',
+      type: 'upload',
+      relationTo: 'media',
+      required: true,
+      admin: {
+        position: 'sidebar',
+        description: 'The small mark used as the browser tab favicon. Usually square, e.g. 32×32 or 64×64.',
+      },
+    },
+    {
+      name: 'iconDark',
+      label: 'Site Icon (dark mode)',
+      type: 'upload',
+      relationTo: 'media',
+      admin: {
+        position: 'sidebar',
+        description:
+          "Optional. Shown when the visitor's browser prefers a dark colour scheme. Falls back to the main icon.",
+      },
+    },
   ],
 }
