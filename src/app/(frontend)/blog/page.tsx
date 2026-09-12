@@ -8,9 +8,7 @@ import { generateMeta } from '@/utilities/generateMeta'
 import { getPayloadClient } from '@/utilities/getPayloadClient'
 import { unstable_cache } from 'next/cache'
 import { getCachedGlobal } from '@/utilities/getGlobals'
-import { Blocks } from '@/blocks'
-import { FeaturedPost } from '@/collections/Pages/blogBlocks/FeaturedPost/Component'
-import { BlogListing } from '@/collections/Pages/blogBlocks/BlogListing/Component'
+import { BlogPageClient } from './BlogPageClient'
 
 type Props = {
   searchParams: Promise<{
@@ -47,35 +45,16 @@ export default async function Page({ searchParams }: Props) {
   const heroPost = featuredBlog ?? blogs.docs[0]
 
   return (
-    <>
-      <Blocks blocks={page.blocks} />
-      {page.blogBlocks?.map((block, index) => {
-        if (block.blockType === 'featuredPost') {
-          return (
-            <FeaturedPost
-              key={block.id ?? index}
-              {...block}
-              heroPost={heroPost}
-              featuredBlog={featuredBlog}
-            />
-          )
-        }
-        if (block.blockType === 'blogListing') {
-          return (
-            <BlogListing
-              key={block.id ?? index}
-              {...block}
-              categories={categories}
-              blogs={blogs}
-              currentPage={currentPage}
-              categoryParam={categoryParam}
-              searchParams={currentSearchParams}
-            />
-          )
-        }
-        return null
-      })}
-    </>
+    <BlogPageClient
+      initialData={page}
+      categories={categories}
+      heroPost={heroPost}
+      featuredBlog={featuredBlog}
+      blogs={blogs}
+      currentPage={currentPage}
+      categoryParam={categoryParam}
+      searchParams={currentSearchParams}
+    />
   )
 }
 

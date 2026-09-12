@@ -155,3 +155,11 @@ cleaned-up checkbox version before generating the project overview.
   threaded in that the generic block dispatcher doesn't support, and mixing
   it into the shared registry would also make it embeddable in Post bodies
   and every other page
+- [x] 19. **Blog page live preview** - extend live preview to the `/blog`
+  listing page's own Pages document (`slug: 'blog'`), whose route is
+  currently excluded on purpose (separate template). Edits to its `blocks`
+  and `blogBlocks` (Featured Post / Blog Listing) update live, matching
+  `[slug]` and post pages; the Post/Category data those blocks render
+  (heroPost, featuredBlog, categories, paginated posts) stays
+  server-computed and non-reactive, same as Post's related-posts and
+  Footer's borrowed fields

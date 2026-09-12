@@ -4,9 +4,7 @@ type LivePreviewPathInput =
 
 /**
  * Resolves the frontend path Live Preview should point at, or undefined to
- * disable the button for that document. The 'blog'-slug Pages document is
- * excluded on purpose: its route (`/blog`) is rendered by a separate
- * template not wired for live preview.
+ * disable the button for that document.
  */
 export function livePreviewPath(input: LivePreviewPathInput): string | undefined {
   if (input.type === 'global') return '/'
@@ -18,7 +16,8 @@ export function livePreviewPath(input: LivePreviewPathInput): string | undefined
   }
 
   if (collectionSlug === 'pages') {
-    if (!docSlug || docSlug === 'blog') return undefined
+    if (!docSlug) return undefined
+    if (docSlug === 'blog') return '/blog'
     return docSlug === 'home' ? '/' : `/${docSlug}`
   }
 

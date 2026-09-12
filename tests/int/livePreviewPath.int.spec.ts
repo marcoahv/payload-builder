@@ -8,10 +8,10 @@ describe('livePreviewPath', () => {
     ).toBe('/')
   })
 
-  it('disables the blog-slug page (separate template)', () => {
+  it('resolves the blog-slug page to /blog', () => {
     expect(
       livePreviewPath({ type: 'collection', collectionSlug: 'pages', docSlug: 'blog' }),
-    ).toBeUndefined()
+    ).toBe('/blog')
   })
 
   it('resolves other page slugs to /<slug>', () => {
