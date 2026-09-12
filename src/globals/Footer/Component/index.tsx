@@ -20,6 +20,6 @@ export async function Footer() {
   if (!header) return null
 
   return (
-    <FooterClient initialFooter={footer} logo={header.logo} siteName={settings.siteName} />
+    <FooterClient initialFooter={footer} logo={header.logo} initialSettings={settings} />
   )
 }

@@ -6,6 +6,7 @@ import Script from 'next/script'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import { Header } from '@/globals/Header/Component'
 import { Footer } from '@/globals/Footer/Component'
+import { SettingsLivePreviewSync } from '@/globals/Settings/Component/SettingsLivePreviewSync'
 import { isDoc } from '@/utilities/isDoc'
 import type { Media } from '@/payload-types'
 import { themeInitScript } from '@/utilities/theme'
@@ -73,6 +74,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
           strategy="beforeInteractive"
           dangerouslySetInnerHTML={{ __html: themeInitScript() }}
         />
+        <SettingsLivePreviewSync initialSettings={settings} />
         <Header />
         {/* No offset class here on purpose: whether <main> needs one — and how
             much — depends on the header's own position and height, both

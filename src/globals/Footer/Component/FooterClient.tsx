@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import type { Footer, Media } from '@/payload-types'
+import type { Footer, Media, Setting } from '@/payload-types'
 import { hrefForNavLink } from '@/utilities/navLink'
 import { Container } from '@/components/primitives'
 import { getServerSideURL } from '@/utilities/getUrl'
@@ -9,23 +9,30 @@ import { useScopedLivePreview } from '@/utilities/useScopedLivePreview'
 import { Logo } from '@/globals/Header/Component/Logo'
 
 /**
- * `logo` and `siteName` are one-time snapshots from Header/Settings, not
- * wired to a live-preview hook - they don't update during a Footer preview
- * session even if Header or Settings is edited concurrently. Deliberate:
- * matches how Post's breadcrumbs stay non-reactive in feature 15.
+ * `logo` is a one-time snapshot from Header, not wired to a live-preview
+ * hook - it doesn't update during a Footer preview session even if Header is
+ * edited concurrently. Deliberate: matches how Post's breadcrumbs stay
+ * non-reactive in feature 15. `siteName` (from Settings) is reactive via its
+ * own hook below, added in feature 20.
  */
 export function FooterClient({
   initialFooter,
   logo,
-  siteName,
+  initialSettings,
 }: {
   initialFooter: Footer
   logo: string | Media
-  siteName: string
+  initialSettings: Setting
 }) {
   const { navLinks, surface, spacing, width } = useScopedLivePreview<Footer>({
     target: { type: 'global', globalSlug: 'footer' },
     initialData: initialFooter,
+    serverURL: getServerSideURL(),
+    depth: 2,
+  })
+  const { siteName } = useScopedLivePreview<Setting>({
+    target: { type: 'global', globalSlug: 'settings' },
+    initialData: initialSettings,
     serverURL: getServerSideURL(),
     depth: 2,
   })

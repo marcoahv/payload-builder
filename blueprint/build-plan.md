@@ -163,3 +163,16 @@ cleaned-up checkbox version before generating the project overview.
   (heroPost, featuredBlog, categories, paginated posts) stays
   server-computed and non-reactive, same as Post's related-posts and
   Footer's borrowed fields
+- [x] 20. **Settings live preview** - extend live preview to the `Settings`
+  global (`admin.livePreview.globals` gains `'settings'`, reusing the `'/'`
+  homepage URL every global already resolves to). Wires the two Settings
+  fields that actually render visibly on the frontend: `siteName` (Footer's
+  copyright line, static since feature 17) becomes reactive via a second
+  `useScopedLivePreview` instance in `FooterClient`; `imageRadius` (the
+  `data-image-radius` attribute on `<html>` driving `--radius-image`
+  site-wide, feature 13) becomes reactive via a new always-mounted client
+  component that syncs the attribute on live-preview messages, following the
+  theme-toggle's existing `document.documentElement` pattern.
+  `siteDescription`, `gtmCode`, and the site icons stay non-reactive -
+  head-only/favicon fields never get live-preview reactivity, same rule
+  already applied to `meta` on Pages/Posts/blog
