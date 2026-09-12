@@ -7,7 +7,6 @@ import { Card } from '@/components/Card'
 import { CardContainer } from '@/components/CardContainer'
 import { Section, Container, Heading } from '@/components/primitives'
 import { PostNavigation } from '@/components/PostNavigation'
-import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { Metadata } from 'next'
 import { generateArticleMeta } from '@/utilities/generateArticleMeta'
 import { unstable_cache } from 'next/cache'
@@ -53,15 +52,8 @@ export default async function Page({ params }: PageProps) {
     queryPreviousPost({ post }),
   ])
 
-  const breadcrumbs = [
-    { label: 'Home', href: '/' },
-    { label: 'Blog', href: '/blog' },
-    { label: post.title },
-  ]
-
   return (
     <>
-      <Breadcrumbs items={breadcrumbs} />
       <PostClient initialData={post} />
       <PostNavigation prevPost={prevPost} nextPost={nextPost} />
       {relatedPosts.docs.length > 0 && (

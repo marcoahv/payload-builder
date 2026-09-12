@@ -2,13 +2,6 @@
    @layer components, not @utility — see the note at the top of _section.css. */
 
 @layer components {
-  .breadcrumbs {
-    margin-top: 7.6rem;
-    padding-block: 1.6rem;
-    background-color: var(--color-surface-muted);
-    color: var(--color-on-surface-muted);
-  }
-
   .breadcrumbs__list {
     display: flex;
     flex-wrap: wrap;

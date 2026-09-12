@@ -7,7 +7,7 @@ import {
 } from '@payloadcms/richtext-lexical'
 import { populateAuthor } from '@/collections/Posts/hooks/populateAuthor'
 import { SEOField } from '@/fields/seo/config'
-import { appearanceField } from '@/fields/appearance'
+import { appearanceField, breadcrumbsField } from '@/fields/appearance'
 import { blockSlugs } from '@/blocks/registry'
 import {
   deletePost,
@@ -133,6 +133,15 @@ export const Posts: CollectionConfig = {
         {
           label: 'Appearance',
           fields: [
+            {
+              type: 'group',
+              name: 'breadcrumbs',
+              label: 'Breadcrumbs',
+              admin: {
+                description: 'The Home / Blog / post-title trail above the post.',
+              },
+              fields: breadcrumbsField(),
+            },
             {
               type: 'group',
               name: 'headerAppearance',

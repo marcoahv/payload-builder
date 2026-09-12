@@ -174,3 +174,56 @@ export const headerAppearanceField = (): Field[] => [
     ],
   },
 ]
+
+/**
+ * Show/hide plus appearance for a post's breadcrumb trail.
+ *
+ * Defaults (`muted`/`tight`) deliberately don't match `appearanceField()`'s
+ * (`default`/`normal`) - they match what the breadcrumb trail already looks
+ * like today, so an existing post with no stored value renders identically
+ * to before this field existed, and a new post's form matches that same look.
+ */
+export const breadcrumbsField = (): Field[] => [
+  {
+    type: 'collapsible',
+    label: 'Appearance',
+    admin: {
+      initCollapsed: true,
+      description: 'Whether the breadcrumb trail shows above this post, and how it looks.',
+    },
+    fields: [
+      {
+        name: 'show',
+        type: 'checkbox',
+        defaultValue: true,
+        label: 'Show breadcrumbs',
+      },
+      {
+        type: 'row',
+        fields: [
+          {
+            name: 'surface',
+            type: 'select',
+            defaultValue: 'muted',
+            admin: { width: '33%' },
+            options: SURFACE_OPTIONS,
+          },
+          {
+            name: 'spacing',
+            type: 'select',
+            defaultValue: 'tight',
+            admin: { width: '33%' },
+            options: SPACING_OPTIONS,
+          },
+          {
+            name: 'width',
+            type: 'select',
+            defaultValue: 'default',
+            admin: { width: '33%' },
+            options: WIDTH_OPTIONS,
+          },
+        ],
+      },
+    ],
+  },
+]

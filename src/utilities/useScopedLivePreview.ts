@@ -36,6 +36,7 @@ export function useScopedLivePreview<T extends Record<string, any>>({
   const [data, setData] = useState<T>(initialData)
   const previousDataRef = useRef<T>(initialData)
   const hasSentReadyMessage = useRef(false)
+  const latestRequestId = useRef(0)
   const targetKey = target.type === 'global' ? target.globalSlug : target.collectionSlug
 
   useEffect(() => {
@@ -48,6 +49,11 @@ export function useScopedLivePreview<T extends Record<string, any>>({
           : event.data.collectionSlug === target.collectionSlug
       if (!matchesTarget) return
 
+      // mergeData is a real network round trip, so back-to-back edits can
+      // resolve out of order. Only the response to the most recently
+      // dispatched message may commit - an older one lands here as a
+      // no-op instead of rewinding `data` to a stale value.
+      const requestId = ++latestRequestId.current
       const merged = await mergeData<T>({
         depth,
         serverURL,
@@ -57,6 +63,7 @@ export function useScopedLivePreview<T extends Record<string, any>>({
         initialData: previousDataRef.current,
         locale: event.data.locale,
       })
+      if (requestId !== latestRequestId.current) return
       previousDataRef.current = merged
       setData(merged)
     }

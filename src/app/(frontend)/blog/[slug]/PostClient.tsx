@@ -1,5 +1,6 @@
 'use client'
 
+import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { RichText } from '@/components/RichText'
 import { Section, Container, Heading, Stack } from '@/components/primitives'
 import { PostPreview } from '@/components/PostPreview'
@@ -8,11 +9,12 @@ import { useScopedLivePreview } from '@/utilities/useScopedLivePreview'
 import type { Post } from '@/payload-types'
 
 /**
- * Renders only the parts of the post detail page that depend on the post's
- * own fields. Breadcrumbs, PostNavigation, and related posts stay
- * server-rendered in page.tsx - they're derived from other documents at page
- * load, not the currently-edited post, so there's nothing on them to
- * live-update.
+ * Renders the parts of the post detail page that depend on the post's own
+ * fields, including breadcrumbs (moved in from page.tsx so the trail and its
+ * show/appearance controls react live, same as headerAppearance/
+ * bodyAppearance below). PostNavigation and related posts stay
+ * server-rendered in page.tsx - they're derived from OTHER documents, not
+ * this one, so there's nothing on them to live-update.
  */
 export function PostClient({ initialData }: { initialData: Post }) {
   const data = useScopedLivePreview<Post>({
@@ -22,8 +24,22 @@ export function PostClient({ initialData }: { initialData: Post }) {
     depth: 2,
   })
 
+  const breadcrumbs = [
+    { label: 'Home', href: '/' },
+    { label: 'Blog', href: '/blog' },
+    { label: data.title },
+  ]
+
   return (
     <>
+      {data.breadcrumbs?.show !== false && (
+        <Breadcrumbs
+          items={breadcrumbs}
+          surface={data.breadcrumbs?.surface}
+          spacing={data.breadcrumbs?.spacing}
+          width={data.breadcrumbs?.width}
+        />
+      )}
       <Section surface={data.headerAppearance?.surface} spacing={data.headerAppearance?.spacing}>
         <Container width={data.headerAppearance?.width}>
           <Stack gap="lg">

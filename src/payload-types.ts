@@ -443,6 +443,15 @@ export interface Post {
   };
   featuredImage: string | Media;
   /**
+   * The Home / Blog / post-title trail above the post.
+   */
+  breadcrumbs?: {
+    show?: boolean | null;
+    surface?: ('default' | 'inverse' | 'muted' | 'accent') | null;
+    spacing?: ('none' | 'tight' | 'normal' | 'loose') | null;
+    width?: ('narrow' | 'default' | 'wide' | 'full') | null;
+  };
+  /**
    * The title, meta row, and banner image at the top of the post.
    */
   headerAppearance?: {
@@ -753,6 +762,14 @@ export interface PostsSelect<T extends boolean = true> {
         name?: T;
       };
   featuredImage?: T;
+  breadcrumbs?:
+    | T
+    | {
+        show?: T;
+        surface?: T;
+        spacing?: T;
+        width?: T;
+      };
   headerAppearance?:
     | T
     | {
