@@ -4,8 +4,9 @@ import {
   slugField,
 } from 'payload'
 import { SEOField } from '@/fields/seo/config'
-import { appearanceField } from '@/fields/appearance'
 import { blockSlugs } from '@/blocks/registry'
+import { FeaturedPost } from './blogBlocks/FeaturedPost/config'
+import { BlogListing } from './blogBlocks/BlogListing/config'
 import { deletePage, updatePage } from './hooks/revalidatePage'
 
 export const Pages: CollectionConfig = {
@@ -63,33 +64,23 @@ export const Pages: CollectionConfig = {
           ],
         },
         {
-          label: 'Appearance',
+          label: 'Blog Content',
           admin: {
-            // Only the "blog" page reads heroAppearance/listAppearance
-            // (see blog/page.tsx) — hide the whole tab everywhere else
-            // rather than leave editors staring at an empty one.
+            // Only the "blog" page reads blogBlocks (see blog/page.tsx) —
+            // hide the whole tab everywhere else rather than leave editors
+            // staring at an empty one.
             condition: (data) => data?.slug === 'blog',
           },
           fields: [
             {
-              type: 'group',
-              name: 'heroAppearance',
-              label: 'Hero section',
+              name: 'blogBlocks',
+              label: 'Blog Blocks',
+              type: 'blocks',
+              blocks: [FeaturedPost, BlogListing],
               admin: {
                 description:
-                  'The page title and featured/latest post preview at the top of the blog listing.',
+                  'Add, reorder, or omit Featured Post and Blog Listing. Add a Hero block (Layout tab) above them for a heading.',
               },
-              fields: appearanceField(),
-            },
-            {
-              type: 'group',
-              name: 'listAppearance',
-              label: 'Post list section',
-              admin: {
-                description:
-                  'The "More Posts" grid, category filter, and pagination below the hero.',
-              },
-              fields: appearanceField(),
             },
           ],
         },

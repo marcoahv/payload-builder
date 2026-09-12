@@ -1,27 +1,16 @@
 import { PaginatedDocs } from 'payload'
 import React from 'react'
 import { notFound } from 'next/navigation'
-import { isDoc } from '@/utilities/isDoc'
 import type { Category, Post } from '@/payload-types'
-import { Card } from '@/components/Card'
-import { CardContainer } from '@/components/CardContainer'
-import { PostPreview } from '@/components/PostPreview'
-import {
-  Section,
-  Container,
-  Heading,
-  Stack,
-} from '@/components/primitives'
-import {
-  Pagination,
-  SearchParamsProps,
-} from '@/components/Pagination'
-import { CategoryFilter } from '@/components/CategoryFilter'
+import { SearchParamsProps } from '@/components/Pagination'
 import { Metadata } from 'next'
 import { generateMeta } from '@/utilities/generateMeta'
 import { getPayloadClient } from '@/utilities/getPayloadClient'
 import { unstable_cache } from 'next/cache'
 import { getCachedGlobal } from '@/utilities/getGlobals'
+import { Blocks } from '@/blocks'
+import { FeaturedPost } from '@/collections/Pages/blogBlocks/FeaturedPost/Component'
+import { BlogListing } from '@/collections/Pages/blogBlocks/BlogListing/Component'
 
 type Props = {
   searchParams: Promise<{
@@ -59,48 +48,33 @@ export default async function Page({ searchParams }: Props) {
 
   return (
     <>
-      <Section surface={page.heroAppearance?.surface} spacing={page.heroAppearance?.spacing}>
-        <Container width={page.heroAppearance?.width}>
-          <Stack gap="lg">
-            <Heading level={1}>{page.title}</Heading>
-            {isDoc<Post>(heroPost) && (
-              <Stack gap="md">
-                <Heading>
-                  {featuredBlog ? 'Featured post' : 'Latest post'}
-                </Heading>
-                <PostPreview post={heroPost} imageSize={'fullSize'} />
-              </Stack>
-            )}
-          </Stack>
-        </Container>
-      </Section>
-      {blogs.docs.length > 0 && (
-        <Section surface={page.listAppearance?.surface ?? 'muted'} spacing={page.listAppearance?.spacing}>
-          <Container width={page.listAppearance?.width}>
-            <Stack gap="lg">
-              <Heading>More Posts</Heading>
-              <CategoryFilter
-                categories={categories.docs}
-                currentCategory={categoryParam}
-              />
-              <CardContainer>
-                {blogs.docs
-                  .filter((post) => !post.featured)
-                  .map((post) => (
-                    <Card {...post} key={post.id} />
-                  ))}
-              </CardContainer>
-              <Pagination
-                totalPages={blogs.totalPages}
-                currentPage={currentPage}
-                hasNext={blogs.hasNextPage}
-                hasPrev={blogs.hasPrevPage}
-                searchParams={currentSearchParams}
-              />
-            </Stack>
-          </Container>
-        </Section>
-      )}
+      <Blocks blocks={page.blocks} />
+      {page.blogBlocks?.map((block, index) => {
+        if (block.blockType === 'featuredPost') {
+          return (
+            <FeaturedPost
+              key={block.id ?? index}
+              {...block}
+              heroPost={heroPost}
+              featuredBlog={featuredBlog}
+            />
+          )
+        }
+        if (block.blockType === 'blogListing') {
+          return (
+            <BlogListing
+              key={block.id ?? index}
+              {...block}
+              categories={categories}
+              blogs={blogs}
+              currentPage={currentPage}
+              categoryParam={categoryParam}
+              searchParams={currentSearchParams}
+            />
+          )
+        }
+        return null
+      })}
     </>
   )
 }
@@ -118,7 +92,15 @@ const queryBlogPage = unstable_cache(
       },
       populate: {
         media: {
+          filename: true,
+          width: true,
+          height: true,
+          url: true,
+          alt: true,
+          blurDataUrl: true,
           sizes: {
+            fullSize: true,
+            card: true,
             og: true,
           },
         },
@@ -127,8 +109,8 @@ const queryBlogPage = unstable_cache(
         title: true,
         meta: true,
         featuredImage: true,
-        heroAppearance: true,
-        listAppearance: true,
+        blocks: true,
+        blogBlocks: true,
       },
     })
     return page.docs?.[0] || null

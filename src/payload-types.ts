@@ -375,21 +375,9 @@ export interface Page {
   featuredImage: string | Media;
   blocks?: (HeroBlock | FeatureGridBlock | CallToActionBlock | RichTextBlock | TableBlock)[] | null;
   /**
-   * The page title and featured/latest post preview at the top of the blog listing.
+   * Add, reorder, or omit Featured Post and Blog Listing. Add a Hero block (Layout tab) above them for a heading.
    */
-  heroAppearance?: {
-    surface?: ('default' | 'inverse' | 'muted' | 'accent') | null;
-    spacing?: ('none' | 'tight' | 'normal' | 'loose') | null;
-    width?: ('narrow' | 'default' | 'wide' | 'full') | null;
-  };
-  /**
-   * The "More Posts" grid, category filter, and pagination below the hero.
-   */
-  listAppearance?: {
-    surface?: ('default' | 'inverse' | 'muted' | 'accent') | null;
-    spacing?: ('none' | 'tight' | 'normal' | 'loose') | null;
-    width?: ('narrow' | 'default' | 'wide' | 'full') | null;
-  };
+  blogBlocks?: (FeaturedPostBlock | BlogListingBlock)[] | null;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -405,6 +393,31 @@ export interface Page {
   };
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedPostBlock".
+ */
+export interface FeaturedPostBlock {
+  surface?: ('default' | 'inverse' | 'muted' | 'accent') | null;
+  spacing?: ('none' | 'tight' | 'normal' | 'loose') | null;
+  width?: ('narrow' | 'default' | 'wide' | 'full') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'featuredPost';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BlogListingBlock".
+ */
+export interface BlogListingBlock {
+  surface?: ('default' | 'inverse' | 'muted' | 'accent') | null;
+  spacing?: ('none' | 'tight' | 'normal' | 'loose') | null;
+  width?: ('narrow' | 'default' | 'wide' | 'full') | null;
+  heading?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'blogListing';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -678,19 +691,11 @@ export interface PagesSelect<T extends boolean = true> {
   title?: T;
   featuredImage?: T;
   blocks?: T | {};
-  heroAppearance?:
+  blogBlocks?:
     | T
     | {
-        surface?: T;
-        spacing?: T;
-        width?: T;
-      };
-  listAppearance?:
-    | T
-    | {
-        surface?: T;
-        spacing?: T;
-        width?: T;
+        featuredPost?: T | FeaturedPostBlockSelect<T>;
+        blogListing?: T | BlogListingBlockSelect<T>;
       };
   meta?:
     | T
@@ -703,6 +708,29 @@ export interface PagesSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedPostBlock_select".
+ */
+export interface FeaturedPostBlockSelect<T extends boolean = true> {
+  surface?: T;
+  spacing?: T;
+  width?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BlogListingBlock_select".
+ */
+export interface BlogListingBlockSelect<T extends boolean = true> {
+  surface?: T;
+  spacing?: T;
+  width?: T;
+  heading?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

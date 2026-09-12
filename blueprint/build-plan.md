@@ -146,3 +146,12 @@ cleaned-up checkbox version before generating the project overview.
   appearance); Footer's logo/site-name (borrowed from Header/Settings) stay
   non-reactive during preview, matching how Post's breadcrumbs stayed
   non-reactive in feature 15
+- [x] 18. **Blog listing content blocks** - replace `/blog`'s hardcoded
+  hero/listing template with two dedicated blog-only block types (Featured
+  Post, Blog Listing) on a new conditional `blogBlocks` field, so editors
+  can add, reorder, or omit them and configure appearance per block; kept
+  separate from the shared page-builder `blocks` field/registry, since the
+  listing needs page-level query results (pagination, category filter)
+  threaded in that the generic block dispatcher doesn't support, and mixing
+  it into the shared registry would also make it embeddable in Post bodies
+  and every other page
